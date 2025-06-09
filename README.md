@@ -14,7 +14,7 @@ Project configuration:
 
 - [x] README
 - [x] .gitignore
-- [ ] Auto-updates (Renovate)
+- [x] Auto-updates (Renovate)
 - [ ] Dependency Management (go.mod)
 
 Application configuration:
