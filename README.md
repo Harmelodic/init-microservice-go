@@ -27,10 +27,16 @@ Application configuration:
 
 Build / CI:
 
-- [ ] Test & Build automation (Go `build` CLI, GitHub Actions)
+- [ ] Test & Build automation (Go CLIs `test` & `build`, GitHub Actions)
 - [ ] Packaging and pushing a container image (???, GitHub Actions)
 - [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, GitHub Actions)
-- [ ] Lint/Scan Go code (Go `vet` CLI)
+- [ ] Lint/Scan Go code (Go CLIs)
+  - `go mod verify`
+  - `go mod tidy` (no diff)
+  - `go vet`
+  - `go fmt` (no diff)
+  - `go generate` (no diff)
+  - `golangci-lint`
 - [ ] Validate MkDocs (`mkdocs build` with `strict` mode)
 
 Deployment / CD:
