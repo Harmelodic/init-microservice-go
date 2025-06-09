@@ -15,7 +15,7 @@ Project configuration:
 - [x] README
 - [x] .gitignore
 - [x] Auto-updates (Renovate)
-- [ ] Dependency Management (go.mod)
+- [x] Dependency Management (go.mod)
 
 Application configuration:
 
@@ -27,17 +27,17 @@ Application configuration:
 
 Build / CI:
 
-- [ ] Test & Build automation (Go CLIs `test` & `build`, GitHub Actions)
+- [x] Test & Build automation (Go CLIs `test` & `build`, GitHub Actions)
 - [ ] Packaging and pushing a container image (???, GitHub Actions)
 - [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, GitHub Actions)
-- [ ] Lint/Scan Go code (Go CLIs)
+- [x] Lint/Scan Go code (Go CLIs)
   - `go mod verify`
   - `go mod tidy` (no diff)
   - `go vet`
   - `go fmt` (no diff)
   - `go generate` (no diff)
   - `golangci-lint`
-- [ ] Validate MkDocs (`mkdocs build` with `strict` mode)
+- [x] Validate MkDocs (`mkdocs build` with `strict` mode)
 
 Deployment / CD:
 
