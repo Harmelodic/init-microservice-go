@@ -30,7 +30,7 @@ Build / CI:
 - [ ] Test & Build automation (Go `build` CLI, GitHub Actions)
 - [ ] Packaging and pushing a container image (???, GitHub Actions)
 - [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, GitHub Actions)
-- [ ] Lint/Scan Java code (Go `vet` CLI)
+- [ ] Lint/Scan Go code (Go `vet` CLI)
 - [ ] Validate MkDocs (`mkdocs build` with `strict` mode)
 
 Deployment / CD:
