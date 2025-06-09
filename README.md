@@ -19,16 +19,19 @@ Project configuration:
 
 Application configuration:
 
-- [ ] Dependency Injection and Application Configuration
-- [ ] Unit Testing (Built-in Go Unit Testing)
-- [ ] Logging Config (???)
-- [ ] Tracing configuration (??? + OpenTelemetry)
-- [ ] Metrics configuration (??? + Prometheus Registry/Endpoint)
+- [ ] Dependency Injection (Plain old root DI, or `go.uber.org/fx`?)
+- [ ] Application Configuration (CLI + Flags (`urfave/cli` or `spf13/cobra`), or `spf13/viper`?)
+- [ ] Being a web service (`gin` or `net/http` or `chi`?)
+- [ ] Unit Testing (Built-in Go Unit Testing + `stretchr/testify`)
+- [ ] Logging Config (Built-in `slog` or `go.uber.org/zap`?)
+- [ ] Tracing configuration (OpenTelemetry)
+- [ ] Metrics configuration (OpenTelemetry + Prometheus Registry/Endpoint)
+- [ ] Health checks (Custom?)
 
 Build / CI:
 
 - [x] Test & Build automation (Go CLIs `test` & `build`, GitHub Actions)
-- [ ] Packaging and pushing a container image (???, GitHub Actions)
+- [ ] Packaging and pushing a container image (Dockerfile, GitHub Actions)
 - [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, GitHub Actions)
 - [x] Lint/Scan Go code (Go CLIs)
   - `go mod verify`
@@ -60,6 +63,9 @@ Reference implementation examples (production):
   - Simple reusable model, mapping done in layers (if needed)
   - Dependency Injection used
   - No implementation details (as implementations covered in other reference implementations)
+- DB Client (GORM? SQLC? SQLX?)
+- HTTP Client (Built-in HTTP)
+- 
 
 Reference implementations (testing):
 
