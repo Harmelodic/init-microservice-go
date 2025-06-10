@@ -63,9 +63,8 @@ Reference implementation examples (production):
   - Simple reusable model, mapping done in layers (if needed)
   - Dependency Injection used
   - No implementation details (as implementations covered in other reference implementations)
-- DB Client (GORM? SQLC? SQLX?)
-- HTTP Client (Built-in HTTP)
-- 
+- [ ] DB Client (GORM? SQLC? SQLX?)
+- [ ] HTTP Client (Built-in HTTP)
 
 Reference implementations (testing):
 
