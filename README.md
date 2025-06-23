@@ -33,13 +33,14 @@ Build / CI:
 - [x] Test & Build automation (Go CLIs `test` & `build`, GitHub Actions)
 - [ ] Packaging and pushing a container image (Dockerfile, GitHub Actions)
 - [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, GitHub Actions)
-- [x] Lint/Scan Go code (Go CLIs)
-  - `go mod verify`
-  - `go mod tidy` (no diff)
-  - `go vet`
-  - `go fmt` (no diff)
-  - `go generate` (no diff)
-  - `golangci-lint`
+- [x] Lint/Scan/Generate Go code (Go CLIs + `golangci-lint`)
+  - `go mod verify` - Ensures dependencies haven't been modified since last downloaded.
+  - `go mod tidy` (no diff) - Fixes `go.mod` file to meet requirements for building module (should always be the case)
+  - `go fmt` (no diff) - Formats the code according to Go canonical style (should always be the case)
+  - `go vet` - Lints the code for common Go mistakes, etc.
+  - `golangci-lint` - Run more linters to lint the code.
+  - `go generate` (no diff) - Run `//go:generate` scripts to ensure up-to-date generations exist (should always be the
+    case)
 - [x] Validate MkDocs (`mkdocs build` with `strict` mode)
 
 Deployment / CD:
