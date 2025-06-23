@@ -2,25 +2,32 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"log/slog"
+	sloggin "github.com/samber/slog-gin"
 	"os"
 )
 
+// main entrypoint for booting the service, including:
+// - Dependency injection
+// - HTTP server listening
 func main() {
-	slog.Info("Starting service...")
+	logger := getLogger()
+	logger.Info("Starting service...")
 
-	router := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
+	ginEngine := gin.New()
+	ginEngine.Use(gin.Recovery())
+	ginEngine.Use(sloggin.NewWithConfig(logger, sloggin.Config{
+		WithTraceID: true,
+	}))
+	logger.Info("Gin engine configured")
 
-	// TODO: Move this out to a management package for health checks, observability scraping and mgmt endpoints.
-	router.GET("/management/health", func(context *gin.Context) {
-		context.JSON(200, gin.H{
-			"status": "UP",
-		})
-	})
+	registerManagementRoutes(ginEngine)
+	logger.Info("Endpoints registered")
 
-	err := router.Run()
+	logger.Info("Starting application on port 8080")
+	err := ginEngine.Run(":8080")
 	if err != nil {
-		slog.Error("Error occurred when starting Gin app. Exiting")
+		logger.Error("Error occurred when starting Gin app. Exiting")
 		os.Exit(1)
 	}
 }
