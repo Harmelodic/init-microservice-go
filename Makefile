@@ -18,4 +18,3 @@ lint: install
 
 install:
 	go mod download
-
