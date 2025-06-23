@@ -8,7 +8,8 @@ import (
 func getLogger() *slog.Logger {
 	loggerOutput := os.Getenv("LOGGER_OUTPUT")
 
-	var handler slog.Handler = nil
+	var handler slog.Handler
+
 	switch loggerOutput {
 	case "JSON":
 		handler = slog.NewJSONHandler(os.Stdout, nil)
@@ -18,6 +19,5 @@ func getLogger() *slog.Logger {
 		handler = slog.NewJSONHandler(os.Stdout, nil)
 	}
 
-	return slog.New(handler).
-		With()
+	return slog.New(handler)
 }
