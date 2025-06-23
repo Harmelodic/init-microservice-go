@@ -1,14 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"log/slog"
 	"os"
 )
 
 func main() {
-	// TODO: Replace with real log
-	fmt.Println("Starting service...")
+	slog.Info("Starting service...")
 
 	router := gin.Default()
 
@@ -21,8 +20,7 @@ func main() {
 
 	err := router.Run()
 	if err != nil {
-		// TODO: Replace with real log
-		fmt.Println("Error occurred when starting Gin app. Exiting")
+		slog.Error("Error occurred when starting Gin app. Exiting")
 		os.Exit(1)
 	}
 }
