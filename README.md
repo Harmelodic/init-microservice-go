@@ -90,10 +90,34 @@ mkdocs serve
 
 Then open at http://localhost:8000
 
-## Running the app locally
+## Local development
 
-```bash
-# TODO
+Prerequisites:
+
+- Go is installed
+- `golangci-lint` is installed
+
+### Running tests
+
+```shell
+make test
 ```
 
-- Endpoints accessible on ??? TODO
+### Building an executable
+
+```shell
+make build
+# or just
+make
+```
+
+### Running the app
+
+```shell
+go run ./src
+# or
+make build && ./app
+```
+
+- Endpoints accessible on 8080
+- Management endpoints on `/management/...`
