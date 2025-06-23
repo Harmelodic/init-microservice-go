@@ -119,5 +119,5 @@ go run ./src
 make build && ./app
 ```
 
-- Endpoints accessible on 8080
+- Endpoints accessible on http://localhost:8080
 - Management endpoints on `/management/...`
