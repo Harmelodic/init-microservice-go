@@ -30,10 +30,10 @@ Application configuration:
 
 Build / CI:
 
-- [x] Test & Build automation (Go CLIs `test` & `build`, GitHub Actions)
+- [x] Test & Build automation (Make, Go CLIs `test` & `build`, GitHub Actions)
 - [ ] Packaging and pushing a container image (Dockerfile, GitHub Actions)
 - [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, GitHub Actions)
-- [x] Lint/Scan/Generate Go code (Go CLIs + `golangci-lint`)
+- [x] Lint/Scan/Generate Go code (Make, Go CLIs + `golangci-lint`)
   - `go mod verify` - Ensures dependencies haven't been modified since last downloaded.
   - `go mod tidy` (no diff) - Fixes `go.mod` file to meet requirements for building module (should always be the case)
   - `go fmt` (no diff) - Formats the code according to Go canonical style (should always be the case)
