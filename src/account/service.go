@@ -1,10 +1,16 @@
 package account
 
-import "github.com/google/uuid"
+import (
+	"github.com/Harmelodic/init-microservice-go/src/commons"
+	"github.com/google/uuid"
+)
 
 type Service struct{}
 
 func (Service) GetAllAccounts() []Account {
+	logger := commons.NewLogger()
+
+	logger.Info("No implementation yet, generating accounts in-memory")
 	accounts := []Account{
 		{
 			Id:    uuid.New(),

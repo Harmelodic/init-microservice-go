@@ -1,17 +1,18 @@
 package main
 
 import (
-	"github.com/Harmelodic/init-microservice-go/src/account"
+	"github.com/Harmelodic/init-microservice-go/src/commons"
 	"github.com/gin-gonic/gin"
 	sloggin "github.com/samber/slog-gin"
 	"os"
 )
 
-// main entrypoint for booting the service, including:
-// - Dependency injection
-// - HTTP server listening
+// main is the entrypoint to the microservice. Here we:
+// 1. Configure the gin engine
+// 2. Trigger dependency injection
+// 3. Run the gin engine to start the web server.
 func main() {
-	logger := getLogger()
+	logger := commons.NewLogger()
 	logger.Info("Starting service...")
 
 	gin.SetMode(gin.ReleaseMode)
@@ -22,7 +23,6 @@ func main() {
 	}))
 	logger.Info("Gin engine configured")
 
-	// Dependency Injection!
 	dependencyInjection(engine)
 
 	logger.Info("Starting application on port 8080")
@@ -31,10 +31,4 @@ func main() {
 		logger.Error("Error occurred when starting Gin app. Exiting")
 		os.Exit(1)
 	}
-}
-
-func dependencyInjection(engine *gin.Engine) {
-	managementRoutes(engine)
-
-	account.Controller(engine, account.Service{})
 }
