@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # ==== CI PIPELINES ====
-build: generate
-	go build -o app -v ./...
+build: clean generate
+	go build -o ./bin/app -v ./src
 
 test: generate
 	go test -v -race ./...
@@ -20,6 +20,9 @@ lint: install
 install:
 	go mod download
 	which golangci-lint # Check golangci-lint is installed
+
+clean:
+	rm -rf ./bin
 
 # ==== DEV SCRIPTS ====
 run: install
