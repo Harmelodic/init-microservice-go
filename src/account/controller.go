@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// Controller configures appropriate HTTP routes
 func Controller(engine *gin.Engine, service Service) {
 	engine.GET("/v1/account", func(context *gin.Context) {
 		accounts := service.GetAllAccounts()

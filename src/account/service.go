@@ -5,6 +5,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// Service contains the domain logic for the account package.
 type Service struct{}
 
 func (Service) GetAllAccounts() []Account {
