@@ -14,8 +14,8 @@ lint: install
 	go mod tidy
 	go fmt ./...
 	go vet ./...
-	${GOPATH}/bin/golangci-lint run
+	golangci-lint run
 
 install:
 	go mod download
-	go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
+	which golangci-lint # Check golangci-lint is installed
