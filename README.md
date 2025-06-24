@@ -16,6 +16,7 @@ Project configuration:
 - [x] .gitignore
 - [x] Auto-updates (Renovate)
 - [x] Dependency Management (go.mod)
+- [x] Packaged according to [golang-standard's project-layout](https://github.com/golang-standards/project-layout)
 
 Application configuration:
 
@@ -114,7 +115,7 @@ make
 ### Running the app
 
 ```shell
-go run ./src
+go run ./internal
 # or
 make build && ./app
 ```

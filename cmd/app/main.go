@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/Harmelodic/init-microservice-go/src/commons"
+	"github.com/Harmelodic/init-microservice-go/internal/account"
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/gin-gonic/gin"
 	sloggin "github.com/samber/slog-gin"
 	"os"
@@ -31,4 +32,9 @@ func main() {
 		logger.Error("Error occurred when starting Gin app. Exiting")
 		os.Exit(1)
 	}
+}
+
+func dependencyInjection(engine *gin.Engine) {
+	account.Controller(engine, account.Service{})
+	commons.HealthController(engine)
 }

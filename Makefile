@@ -2,7 +2,7 @@
 
 # ==== CI PIPELINES ====
 build: clean generate
-	go build -o ./bin/app -v ./src
+	go build -o ./bin/app -v ./cmd/app
 
 test: generate
 	go test -v -race ./...
@@ -26,4 +26,4 @@ clean:
 
 # ==== DEV SCRIPTS ====
 run: install
-	go run ./src
+	go run ./cmd/app

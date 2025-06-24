@@ -1,7 +1,7 @@
 package account
 
 import (
-	"github.com/Harmelodic/init-microservice-go/src/commons"
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/google/uuid"
 )
 
