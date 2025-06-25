@@ -12,18 +12,18 @@ type HealthIndicator interface {
 	IsHealthy() bool
 }
 
+// healthReport is the API response for reporting what is UP and DOWN
+type healthReport struct {
+	Indicator string `json:"indicator"`
+	Status    Status `json:"status"`
+}
+
 type Status string
 
 const (
 	UP   Status = "UP"
 	DOWN Status = "DOWN"
 )
-
-// healthReport is the API response for reporting which indicators are UP and DOWN
-type healthReport struct {
-	Indicator string `json:"indicator"`
-	Status    Status `json:"status"`
-}
 
 // LivenessController creates an endpoint to report whether the service is UP (HTTP 200) or DOWN (HTTP 503) in regard to
 // "liveness": https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/#liveness-probe.
