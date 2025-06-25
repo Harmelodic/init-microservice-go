@@ -35,8 +35,11 @@ func main() {
 }
 
 func dependencyInjection(engine *gin.Engine) {
-	account.Controller(engine, &account.Service{})
+	accountRepository := account.Repository{}
+	accountService := account.Service{Repository: &accountRepository}
+
+	account.Controller(engine, &accountService)
 
 	commons.LivenessController(engine)
-	commons.ReadinessController(engine)
+	commons.ReadinessController(engine, &accountRepository)
 }

@@ -1,29 +1,17 @@
 package account
 
-import (
-	"github.com/Harmelodic/init-microservice-go/internal/commons"
-	"github.com/google/uuid"
-)
+import "errors"
 
 // Service contains the domain logic for the account package.
-type Service struct{}
+type Service struct {
+	Repository *Repository
+}
 
-func (*Service) GetAllAccounts() []Account {
-	logger := commons.NewLogger()
+func (service *Service) GetAllAccounts() ([]Account, error) {
+	accounts, err := service.Repository.GetAllAccounts()
+	if err != nil {
+		return nil, errors.New("failed to fetch accounts from repository")
+	}
 
-	logger.Info("No implementation yet, generating accounts in-memory")
-	accounts := []Account{
-		{
-			Id:    uuid.New(),
-			Alias: "Account 1",
-		},
-		{
-			Id:    uuid.New(),
-			Alias: "Account 2",
-		},
-		{
-			Id:    uuid.New(),
-			Alias: "Account 3",
-		}}
-	return accounts
+	return accounts, nil
 }
