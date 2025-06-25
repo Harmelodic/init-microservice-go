@@ -35,6 +35,6 @@ func main() {
 }
 
 func dependencyInjection(engine *gin.Engine) {
-	account.Controller(engine, account.Service{})
+	account.Controller(engine, &account.Service{})
 	commons.HealthController(engine)
 }

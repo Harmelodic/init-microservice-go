@@ -8,7 +8,7 @@ import (
 // Service contains the domain logic for the account package.
 type Service struct{}
 
-func (Service) GetAllAccounts() []Account {
+func (*Service) GetAllAccounts() []Account {
 	logger := commons.NewLogger()
 
 	logger.Info("No implementation yet, generating accounts in-memory")
