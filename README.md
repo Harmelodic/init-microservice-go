@@ -46,13 +46,13 @@ Build / CI:
 
 Deployment / CD:
 
-- Kubernetes Deployment (or Argo Rollout, or similar)
+- Not covered, but would use Kubernetes Deployment (or Argo Rollout, or similar)
 - Expected that an external CD system would deploy to Kubernetes (e.g. Argo CD)
 - See [init-microservice](https://github.com/harmelodic/init-microservice) for examples.
 
 Infrastructure as Code:
 
-- Terraform
+- Not covered, but would use Terraform
 - Expected that an external CD system would apply Terraform (e.g. Atlantis)
 - See [init-microservice](https://github.com/harmelodic/init-microservice) for examples.
 
