@@ -4,9 +4,13 @@ import (
 	"github.com/google/uuid"
 )
 
-type Repository struct{}
+type Repository interface {
+	GetAllAccounts() ([]Account, error)
+}
 
-func (*Repository) GetAllAccounts() ([]Account, error) {
+type DefaultRepository struct{}
+
+func (*DefaultRepository) GetAllAccounts() ([]Account, error) {
 	// TODO: Replace with DB connection
 	accounts := []Account{
 		{
@@ -24,10 +28,10 @@ func (*Repository) GetAllAccounts() ([]Account, error) {
 	return accounts, nil
 }
 
-func (repo *Repository) Name() string {
+func (repo *DefaultRepository) Name() string {
 	return "AccountRepository"
 }
 
-func (repo *Repository) IsHealthy() bool {
+func (repo *DefaultRepository) IsHealthy() bool {
 	return true // TODO: Change to check DB connection health
 }

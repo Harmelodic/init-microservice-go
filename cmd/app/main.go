@@ -35,8 +35,8 @@ func main() {
 }
 
 func dependencyInjection(engine *gin.Engine) {
-	accountRepository := account.Repository{}
-	accountService := account.Service{Repository: &accountRepository}
+	accountRepository := account.DefaultRepository{}
+	accountService := account.DefaultService{Repository: &accountRepository}
 
 	account.Controller(engine, &accountService)
 
