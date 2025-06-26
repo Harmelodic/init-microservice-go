@@ -8,7 +8,10 @@ import (
 // Controller configures appropriate HTTP routes
 func Controller(engine *gin.Engine, service Service) {
 	engine.GET("/v1/account", func(context *gin.Context) {
-		accounts, _ := service.GetAllAccounts()
+		accounts, err := service.GetAllAccounts()
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{"err": err.Error()})
+		}
 		context.JSON(http.StatusOK, accounts)
 	})
 }

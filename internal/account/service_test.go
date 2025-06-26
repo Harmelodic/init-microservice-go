@@ -9,25 +9,25 @@ import (
 
 // ===== Mocking
 type MockRepository struct {
-	mockAccounts []Account
-	mockError    error
+	accounts []Account
+	err      error
 }
 
 func (m MockRepository) GetAllAccounts() ([]Account, error) {
-	return m.mockAccounts, m.mockError
+	return m.accounts, m.err
 }
 
 // ===== Tests
 func TestService_GetAllAccounts(t *testing.T) {
 	// Given
 	repo := MockRepository{
-		mockAccounts: []Account{
+		accounts: []Account{
 			{
 				Id:    uuid.New(),
 				Alias: "Mock Account",
 			},
 		},
-		mockError: nil,
+		err: nil,
 	}
 	service := DefaultService{repo}
 
@@ -38,7 +38,7 @@ func TestService_GetAllAccounts(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error returned unexpectedly %s", err)
 	}
-	if !reflect.DeepEqual(accounts, repo.mockAccounts) {
+	if !reflect.DeepEqual(accounts, repo.accounts) {
 		t.Errorf("Accounts don't match!")
 	}
 }
@@ -46,8 +46,8 @@ func TestService_GetAllAccounts(t *testing.T) {
 func TestService_GetAllAccountsError(t *testing.T) {
 	// Given
 	repo := MockRepository{
-		mockAccounts: nil,
-		mockError:    errors.New("some repo error"),
+		accounts: nil,
+		err:      errors.New("some repo err"),
 	}
 	service := DefaultService{repo}
 
@@ -56,6 +56,6 @@ func TestService_GetAllAccountsError(t *testing.T) {
 
 	// Then
 	if err == nil {
-		t.Errorf("No error returned when error expected")
+		t.Errorf("No err returned when err expected")
 	}
 }

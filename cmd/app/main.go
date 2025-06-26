@@ -4,7 +4,6 @@ import (
 	"github.com/Harmelodic/init-microservice-go/internal/account"
 	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/gin-gonic/gin"
-	sloggin "github.com/samber/slog-gin"
 	"os"
 )
 
@@ -16,13 +15,7 @@ func main() {
 	logger := commons.NewLogger()
 	logger.Info("Starting service...")
 
-	gin.SetMode(gin.ReleaseMode)
-	engine := gin.New()
-	engine.Use(gin.Recovery())
-	engine.Use(sloggin.NewWithConfig(logger, sloggin.Config{
-		WithTraceID: true,
-	}))
-	logger.Info("Gin engine configured")
+	engine := commons.NewGinEngine(logger)
 
 	dependencyInjection(engine)
 
