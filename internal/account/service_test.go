@@ -3,7 +3,7 @@ package account
 import (
 	"errors"
 	"github.com/google/uuid"
-	"reflect"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -20,7 +20,7 @@ func (m MockRepository) GetAllAccounts() ([]Account, error) {
 // ===== Tests
 func TestService_GetAllAccounts(t *testing.T) {
 	// Given
-	repo := MockRepository{
+	mockRepo := MockRepository{
 		accounts: []Account{
 			{
 				Id:    uuid.New(),
@@ -29,33 +29,27 @@ func TestService_GetAllAccounts(t *testing.T) {
 		},
 		err: nil,
 	}
-	service := DefaultService{repo}
+	service := DefaultService{mockRepo}
 
 	// When
 	accounts, err := service.GetAllAccounts()
 
 	// Then
-	if err != nil {
-		t.Errorf("Error returned unexpectedly %s", err)
-	}
-	if !reflect.DeepEqual(accounts, repo.accounts) {
-		t.Errorf("Accounts don't match!")
-	}
+	assert.NoError(t, err)
+	assert.Equal(t, mockRepo.accounts, accounts)
 }
 
 func TestService_GetAllAccountsError(t *testing.T) {
 	// Given
-	repo := MockRepository{
+	mockRepo := MockRepository{
 		accounts: nil,
-		err:      errors.New("some repo err"),
+		err:      errors.New("some mockRepo err"),
 	}
-	service := DefaultService{repo}
+	service := DefaultService{mockRepo}
 
 	// When
 	_, err := service.GetAllAccounts()
 
 	// Then
-	if err == nil {
-		t.Errorf("No err returned when err expected")
-	}
+	assert.Error(t, err)
 }
