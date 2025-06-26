@@ -20,14 +20,14 @@ Project configuration:
 
 Application configuration:
 
-- [ ] Dependency Injection (Plain old root DI, or `go.uber.org/fx`?)
+- [x] Dependency Injection (Plain old root DI, could have used `go.uber.org/fx`)
 - [ ] Application Configuration (CLI + Flags (`urfave/cli` or `spf13/cobra`), or `spf13/viper`?)
-- [ ] Being a web service (`gin` or `net/http` or `chi`?)
-- [ ] Unit Testing (Built-in Go Unit Testing + `stretchr/testify`)
-- [ ] Logging Config (Built-in `slog` or `go.uber.org/zap`?)
+- [x] Being a web service (`gin`, could have used `net/http` or `chi`)
+- [x] Unit Testing (Built-in Go Unit Testing + `stretchr/testify`)
+- [x] Logging Config (Built-in `slog`, could have used `go.uber.org/zap`?)
 - [ ] Tracing configuration (OpenTelemetry)
 - [ ] Metrics configuration (OpenTelemetry + Prometheus Registry/Endpoint)
-- [ ] Health checks (Custom?)
+- [x] Health checks (Custom Liveness and Readiness endpoints)
 
 Build / CI:
 
@@ -58,15 +58,15 @@ Infrastructure as Code:
 
 Reference implementation examples (production):
 
-- [ ] Application Structure Example (account)
+- [x] Application Structure Example (account)
   - Reasonably decoupled layers/components
   - Domain-driven
   - Scoped explicit exception handling
   - Simple reusable model, mapping done in layers (if needed)
   - Dependency Injection used
-  - No implementation details (as implementations covered in other reference implementations)
-- [ ] DB Client (GORM? SQLC? SQLX?)
-- [ ] HTTP Client (Built-in HTTP)
+  - Basic CRUD (as other implementations covered in other reference implementations)
+- [ ] DB Client (Using `GORM`? `SQLC`? `SQLX`?)
+- [ ] HTTP Client (Built-in `net/http`?)
 
 Reference implementations (testing):
 
