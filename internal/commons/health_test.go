@@ -8,11 +8,11 @@ import (
 	"testing"
 )
 
-type healthIndicator struct {
+type testHealthIndicator struct {
 	status bool
 }
 
-func (hi healthIndicator) IndicateHealth() (string, bool) {
+func (hi testHealthIndicator) IndicateHealth() (string, bool) {
 	return "indicator", hi.status
 }
 
@@ -29,7 +29,7 @@ func TestLivenessController_UpSolo(t *testing.T) {
 
 func TestLivenessController_UpWithIndicators(t *testing.T) {
 	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
-	LivenessController(testEngine, healthIndicator{true}, healthIndicator{true})
+	LivenessController(testEngine, testHealthIndicator{true}, testHealthIndicator{true})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/liveness", http.NoBody)
@@ -40,7 +40,7 @@ func TestLivenessController_UpWithIndicators(t *testing.T) {
 
 func TestLivenessController_DownWhenSomeDown(t *testing.T) {
 	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
-	LivenessController(testEngine, healthIndicator{true}, healthIndicator{false})
+	LivenessController(testEngine, testHealthIndicator{true}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/liveness", http.NoBody)
@@ -51,7 +51,7 @@ func TestLivenessController_DownWhenSomeDown(t *testing.T) {
 
 func TestLivenessController_DownWhenAllDown(t *testing.T) {
 	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
-	LivenessController(testEngine, healthIndicator{false}, healthIndicator{false})
+	LivenessController(testEngine, testHealthIndicator{false}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/liveness", http.NoBody)
@@ -75,7 +75,7 @@ func TestReadinessController_UpSolo(t *testing.T) {
 
 func TestReadinessController_UpWithIndicators(t *testing.T) {
 	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
-	ReadinessController(testEngine, healthIndicator{true}, healthIndicator{true})
+	ReadinessController(testEngine, testHealthIndicator{true}, testHealthIndicator{true})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/readiness", http.NoBody)
@@ -87,7 +87,7 @@ func TestReadinessController_UpWithIndicators(t *testing.T) {
 
 func TestReadinessController_DownWhenSomeDown(t *testing.T) {
 	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
-	ReadinessController(testEngine, healthIndicator{true}, healthIndicator{false})
+	ReadinessController(testEngine, testHealthIndicator{true}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/readiness", http.NoBody)
@@ -99,7 +99,7 @@ func TestReadinessController_DownWhenSomeDown(t *testing.T) {
 
 func TestReadinessController_DownWhenAllDown(t *testing.T) {
 	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
-	ReadinessController(testEngine, healthIndicator{false}, healthIndicator{false})
+	ReadinessController(testEngine, testHealthIndicator{false}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/readiness", http.NoBody)
