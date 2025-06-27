@@ -26,4 +26,8 @@ clean:
 
 # ==== DEV SCRIPTS ====
 run: install
+	docker run -d --rm --name make_postgres -it -p 5432:5432 -e POSTGRES_PASSWORD=password postgres:latest
+	bash -c "trap 'trap - SIGINT SIGTERM ERR; docker stop make_postgres; exit 1; exit 1' SIGINT SIGTERM ERR; ${MAKE} run_internal"
+
+run_internal:
 	go run ./cmd/app

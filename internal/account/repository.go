@@ -1,31 +1,17 @@
 package account
 
 import (
-	"github.com/google/uuid"
+	"database/sql"
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
+	"log/slog"
 )
 
 type Repository interface {
 	GetAllAccounts() ([]Account, error)
 }
 
-type DefaultRepository struct{}
-
-func (*DefaultRepository) GetAllAccounts() ([]Account, error) {
-	// TODO: Replace with DB connection
-	accounts := []Account{
-		{
-			Id:    uuid.New(),
-			Alias: "Account 1",
-		},
-		{
-			Id:    uuid.New(),
-			Alias: "Account 2",
-		},
-		{
-			Id:    uuid.New(),
-			Alias: "Account 3",
-		}}
-	return accounts, nil
+type DefaultRepository struct {
+	Db *sql.DB
 }
 
 func (repo *DefaultRepository) Name() string {
@@ -33,5 +19,17 @@ func (repo *DefaultRepository) Name() string {
 }
 
 func (repo *DefaultRepository) IsHealthy() bool {
-	return true // TODO: Change to check DB connection health
+	logger := commons.NewLogger()
+	err := repo.Db.Ping()
+	if err != nil {
+		logger.Error("Error connecting to database", slog.String("error", err.Error()))
+		return false
+	}
+	return true
+}
+
+func (repo *DefaultRepository) GetAllAccounts() ([]Account, error) {
+
+	// TODO: Replace with real implementation
+	return []Account{}, nil
 }

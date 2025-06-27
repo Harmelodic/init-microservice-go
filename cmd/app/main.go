@@ -1,9 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"github.com/Harmelodic/init-microservice-go/internal/account"
 	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/gin-gonic/gin"
+	_ "github.com/lib/pq"
+	"log/slog"
 	"os"
 )
 
@@ -17,7 +20,7 @@ func main() {
 
 	engine := commons.NewGinEngine(logger)
 
-	dependencyInjection(engine)
+	dependencyInjection(engine, logger)
 
 	logger.Info("Starting application on port 8080")
 	err := engine.Run(":8080")
@@ -27,8 +30,20 @@ func main() {
 	}
 }
 
-func dependencyInjection(engine *gin.Engine) {
-	accountRepository := account.DefaultRepository{}
+func dependencyInjection(engine *gin.Engine, logger *slog.Logger) {
+	// TODO: Replace with call to service database
+	driver, dataSource := "postgres", "postgres://postgres:password@localhost/postgres?sslmode=disable"
+	database, err := sql.Open(driver, dataSource)
+	if err != nil {
+		logger.Error(
+			"Failed to open database",
+			slog.String("driver", driver),
+			slog.String("datasource", dataSource),
+			slog.String("error", err.Error()))
+		os.Exit(1)
+	}
+
+	accountRepository := account.DefaultRepository{Db: database}
 	accountService := account.DefaultService{Repository: &accountRepository}
 
 	account.Controller(engine, &accountService)

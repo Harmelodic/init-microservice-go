@@ -7,7 +7,8 @@ import (
 	"testing"
 )
 
-// ===== Mocking
+// Mocks
+
 type MockRepository struct {
 	accounts []Account
 	err      error
@@ -17,7 +18,8 @@ func (m MockRepository) GetAllAccounts() ([]Account, error) {
 	return m.accounts, m.err
 }
 
-// ===== Tests
+// Tests
+
 func TestService_GetAllAccounts(t *testing.T) {
 	// Given
 	mockRepo := MockRepository{

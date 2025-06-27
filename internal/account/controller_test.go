@@ -12,7 +12,8 @@ import (
 	"testing"
 )
 
-// ===== Mocking
+// Mocks
+
 type MockService struct {
 	accounts []Account
 	err      error
@@ -22,7 +23,8 @@ func (m MockService) GetAllAccounts() ([]Account, error) {
 	return m.accounts, m.err
 }
 
-// ===== Testing
+// Tests
+
 func TestController_GetAllAccounts(t *testing.T) {
 	// Given
 	testEngine := commons.NewGinEngine(slog.New(slog.DiscardHandler))
@@ -48,8 +50,7 @@ func TestController_GetAllAccounts(t *testing.T) {
 	assert.Equal(t, string(accountJson), responseRecorder.Body.String())
 }
 
-// Test for POST /user/add
-func TestPostUser(t *testing.T) {
+func TestController_GetAllAccountsError(t *testing.T) {
 	// Given
 	testEngine := commons.NewGinEngine(slog.New(slog.DiscardHandler))
 	mockService := MockService{
