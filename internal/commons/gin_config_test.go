@@ -11,7 +11,7 @@ import (
 
 // Testing
 
-func TestNewGinEngine_Recovery(t *testing.T) {
+func TestNewGinEngine_RecoversFromPanics(t *testing.T) {
 	// Given
 	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
 	testEngine.GET("/endpoint", func(context *gin.Context) {
@@ -28,5 +28,5 @@ func TestNewGinEngine_Recovery(t *testing.T) {
 	assert.Equal(t, "", responseRecorder.Body.String())
 }
 
-// TODO: Test logs with Trace ID
-// TODO: Test Release Mode
+// TODO: Test logs contain Trace IDs
+// TODO: Test Gin is prepped for production use (Release mode)
