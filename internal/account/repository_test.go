@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
+	"log/slog"
 	"testing"
 )
 
@@ -63,7 +64,7 @@ func TestDefaultRepository_IsHealthy(t *testing.T) {
 	db, done := usePostgresContainerDb(t)
 	defer done()
 
-	repo := DefaultRepository{Db: db}
+	repo := DefaultRepository{Db: db, Logger: slog.New(slog.DiscardHandler)}
 
 	name, isHealthy := repo.IndicateHealth()
 	assert.Equal(t, "AccountRepository", name)
@@ -82,7 +83,7 @@ func TestDefaultRepository_IsHealthyFail(t *testing.T) {
 		}
 	}()
 
-	repo := DefaultRepository{Db: db}
+	repo := DefaultRepository{Db: db, Logger: slog.New(slog.DiscardHandler)}
 
 	_, isHealthy := repo.IndicateHealth()
 	assert.False(t, isHealthy)

@@ -43,7 +43,7 @@ func dependencyInjection(engine *gin.Engine, logger *slog.Logger) {
 		os.Exit(1)
 	}
 
-	accountRepository := account.DefaultRepository{Db: database}
+	accountRepository := account.DefaultRepository{Db: database, Logger: logger}
 	accountService := account.DefaultService{Repository: &accountRepository}
 
 	account.Controller(engine, &accountService)
