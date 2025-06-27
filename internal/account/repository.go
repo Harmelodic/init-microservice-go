@@ -14,18 +14,16 @@ type DefaultRepository struct {
 	Db *sql.DB
 }
 
-func (repo *DefaultRepository) Name() string {
-	return "AccountRepository"
-}
-
-func (repo *DefaultRepository) IsHealthy() bool {
-	logger := commons.NewLogger()
+// IndicateHealth to make repository a commons.HealthIndicator
+func (repo *DefaultRepository) IndicateHealth() (string, bool) {
+	name := "AccountRepository"
 	err := repo.Db.Ping()
 	if err != nil {
+		logger := commons.NewLogger()
 		logger.Error("Error connecting to database", slog.String("error", err.Error()))
-		return false
+		return name, false
 	}
-	return true
+	return name, true
 }
 
 func (repo *DefaultRepository) GetAllAccounts() ([]Account, error) {

@@ -8,8 +8,7 @@ import (
 // HealthIndicator describes how a health indicator should function. A component can be a HealthIndicator if it has a
 // name (for visibility) and can report if it is healthy or not
 type HealthIndicator interface {
-	Name() string
-	IsHealthy() bool
+	IndicateHealth() (name string, isHealthy bool)
 }
 
 // healthReport is the API response for reporting what is UP and DOWN
@@ -41,9 +40,10 @@ func LivenessController(ginEngine *gin.Engine, indicators ...HealthIndicator) {
 		}
 
 		for i, indicator := range indicators {
+			name, isHealthy := indicator.IndicateHealth()
 			newCheck := healthReport{
-				Indicator: indicator.Name(),
-				Status:    boolToStatus(indicator.IsHealthy()),
+				Indicator: name,
+				Status:    boolToStatus(isHealthy),
 			}
 
 			if newCheck.Status == DOWN {
@@ -77,9 +77,10 @@ func ReadinessController(ginEngine *gin.Engine, indicators ...HealthIndicator) {
 		}
 
 		for i, indicator := range indicators {
+			name, isHealthy := indicator.IndicateHealth()
 			newCheck := healthReport{
-				Indicator: indicator.Name(),
-				Status:    boolToStatus(indicator.IsHealthy()),
+				Indicator: name,
+				Status:    boolToStatus(isHealthy),
 			}
 
 			if newCheck.Status == DOWN {

@@ -65,7 +65,9 @@ func TestDefaultRepository_IsHealthy(t *testing.T) {
 
 	repo := DefaultRepository{Db: db}
 
-	assert.True(t, repo.IsHealthy())
+	name, isHealthy := repo.IndicateHealth()
+	assert.Equal(t, "AccountRepository", name)
+	assert.True(t, isHealthy)
 }
 
 func TestDefaultRepository_IsHealthyFail(t *testing.T) {
@@ -82,5 +84,6 @@ func TestDefaultRepository_IsHealthyFail(t *testing.T) {
 
 	repo := DefaultRepository{Db: db}
 
-	assert.False(t, repo.IsHealthy())
+	_, isHealthy := repo.IndicateHealth()
+	assert.False(t, isHealthy)
 }
