@@ -20,11 +20,11 @@ func TestNewGinEngine_RecoversFromPanics(t *testing.T) {
 
 	// When
 	responseRecorder := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/endpoint", nil)
+	req := httptest.NewRequest(http.MethodGet, "/endpoint", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	// Then
-	assert.Equal(t, 500, responseRecorder.Code)
+	assert.Equal(t, http.StatusInternalServerError, responseRecorder.Code)
 	assert.Equal(t, "", responseRecorder.Body.String())
 }
 
