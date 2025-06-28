@@ -46,11 +46,16 @@ func TestNewGinEngine_LogsConfiguredCorrectly(t *testing.T) {
 
 	// Then
 	logOutput := logBuffer.String()
-	assert.Equal(t, 1, strings.Count(logOutput, "\n"))
+	assert.Equal(t, 1, strings.Count(logOutput, "\n")) // Only one log made for one request/response
+
+	// Ensure important request/response info is there:
 	assert.Contains(t, logOutput, "request.method=GET")
 	assert.Contains(t, logOutput, "request.path=/endpoint")
 	assert.Contains(t, logOutput, "response.status=200")
-	// TODO: Assert Logs contain trace IDs (when Tracing instrumentation configured)
+
+	// TODO when tracing instrumentation configured
+	// Assert log contains trace ID for connecting logs to traces:
+	//assert.Contains(t, logOutput, sloggin.TraceIDKey)
 }
 
 func TestGinReadyForProductionUse(t *testing.T) {
