@@ -1,8 +1,8 @@
 package commons
 
 import (
+	"io"
 	"log/slog"
-	"os"
 )
 
 type LogFormat string
@@ -12,7 +12,7 @@ const LogFormatTEXT LogFormat = "TEXT"
 
 // NewLogger makes a new sensibly preconfigured slog.Logger for use in an application.
 // The log format will be LogFormatJSON or plain text depending on the value of the `LOG_FORMAT` environment variable.
-func NewLogger(format LogFormat) *slog.Logger {
+func NewLogger(format LogFormat, writer io.Writer) *slog.Logger {
 	var handler slog.Handler
 
 	handlerOptions := slog.HandlerOptions{
@@ -21,11 +21,11 @@ func NewLogger(format LogFormat) *slog.Logger {
 
 	switch format {
 	case LogFormatJSON:
-		handler = slog.NewJSONHandler(os.Stdout, &handlerOptions)
+		handler = slog.NewJSONHandler(writer, &handlerOptions)
 	case LogFormatTEXT:
-		handler = slog.NewTextHandler(os.Stdout, &handlerOptions)
+		handler = slog.NewTextHandler(writer, &handlerOptions)
 	default:
-		handler = slog.NewJSONHandler(os.Stdout, &handlerOptions)
+		handler = slog.NewJSONHandler(writer, &handlerOptions)
 	}
 
 	return slog.New(handler)
