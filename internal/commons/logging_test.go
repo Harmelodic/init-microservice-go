@@ -49,3 +49,17 @@ func TestNewLogger_DefaultIsJSON(t *testing.T) {
 	assert.Equal(t, "{", logMessage[:1]) // Quick and dirty checking it's in JSON format
 	assert.Contains(t, logMessage, "Message")
 }
+
+func TestNewLogger_LogIncludesSource(t *testing.T) {
+	// Given
+	var logBuffer bytes.Buffer
+	logger := NewLogger(LogFormatTEXT, &logBuffer)
+
+	// When
+	logger.Info("Message")
+
+	// Then
+	logMessage := logBuffer.String()
+	assert.Contains(t, logMessage, "commons/logging_test.go")
+	assert.Contains(t, logMessage, "Message")
+}
