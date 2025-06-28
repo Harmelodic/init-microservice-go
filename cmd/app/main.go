@@ -14,7 +14,7 @@ import (
 // 1. Trigger dependency injection (to initialise everything that needs to be initialised)
 // 2. Run the resulting gin engine to start the web server.
 func main() {
-	logger := commons.NewLogger()
+	logger := commons.NewLogger(commons.LogFormatJSON)
 	logger.Info("Starting service...")
 
 	engine := dependencyInjection(logger)

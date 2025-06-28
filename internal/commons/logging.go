@@ -5,21 +5,24 @@ import (
 	"os"
 )
 
-// NewLogger makes a new sensibly preconfigured slog.Logger for use in an application.
-// The log format will be JSON or plain text depending on the value of the `LOG_FORMAT` environment variable.
-func NewLogger() *slog.Logger {
-	loggerOutput := os.Getenv("LOG_FORMAT")
+type LogFormat string
 
+const LogFormatJSON LogFormat = "JSON"
+const LogFormatTEXT LogFormat = "TEXT"
+
+// NewLogger makes a new sensibly preconfigured slog.Logger for use in an application.
+// The log format will be LogFormatJSON or plain text depending on the value of the `LOG_FORMAT` environment variable.
+func NewLogger(format LogFormat) *slog.Logger {
 	var handler slog.Handler
 
 	handlerOptions := slog.HandlerOptions{
 		AddSource: true,
 	}
 
-	switch loggerOutput {
-	case "JSON":
+	switch format {
+	case LogFormatJSON:
 		handler = slog.NewJSONHandler(os.Stdout, &handlerOptions)
-	case "TEXT":
+	case LogFormatTEXT:
 		handler = slog.NewTextHandler(os.Stdout, &handlerOptions)
 	default:
 		handler = slog.NewJSONHandler(os.Stdout, &handlerOptions)
