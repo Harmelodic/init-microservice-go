@@ -27,7 +27,7 @@ func (m MockService) GetAllAccounts() ([]Account, error) {
 
 func TestController_GetAllAccounts(t *testing.T) {
 	// Given
-	testEngine := commons.NewGinEngine(slog.New(slog.DiscardHandler))
+	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
 	mockService := MockService{
 		accounts: []Account{
 			{
@@ -52,7 +52,7 @@ func TestController_GetAllAccounts(t *testing.T) {
 
 func TestController_GetAllAccountsError(t *testing.T) {
 	// Given
-	testEngine := commons.NewGinEngine(slog.New(slog.DiscardHandler))
+	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
 	mockService := MockService{
 		accounts: nil,
 		err:      errors.New("some service err"),

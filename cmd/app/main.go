@@ -11,16 +11,13 @@ import (
 )
 
 // main is the entrypoint to the microservice. Here we:
-// 1. Configure the gin engine
-// 2. Trigger dependency injection
-// 3. Run the gin engine to start the web server.
+// 1. Trigger dependency injection (to initialise everything that needs to be initialised)
+// 2. Run the resulting gin engine to start the web server.
 func main() {
 	logger := commons.NewLogger()
 	logger.Info("Starting service...")
 
-	engine := commons.NewGinEngine(logger)
-
-	dependencyInjection(engine, logger)
+	engine := dependencyInjection(logger)
 
 	logger.Info("Starting application on port 8080")
 	err := engine.Run(":8080")
@@ -30,7 +27,12 @@ func main() {
 	}
 }
 
-func dependencyInjection(engine *gin.Engine, logger *slog.Logger) {
+func dependencyInjection(logger *slog.Logger) *gin.Engine {
+	// TODO: Configure OpenTelemetry for tracing instrumentation
+
+	engine := commons.NewGinEngine("init-microservice-go", logger)
+	logger.Info("Gin engine configured")
+
 	// TODO: Replace with call to service database
 	driver, dataSource := "postgres", "postgres://postgres:password@localhost/postgres?sslmode=disable"
 	database, err := sql.Open(driver, dataSource)
@@ -50,4 +52,6 @@ func dependencyInjection(engine *gin.Engine, logger *slog.Logger) {
 
 	commons.LivenessController(engine)
 	commons.ReadinessController(engine, &accountRepository)
+
+	return engine
 }

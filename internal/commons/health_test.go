@@ -17,7 +17,7 @@ func (hi testHealthIndicator) IndicateHealth() (string, bool) {
 }
 
 func TestLivenessController_UpSolo(t *testing.T) {
-	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
+	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
 	LivenessController(testEngine)
 
 	responseRecorder := httptest.NewRecorder()
@@ -28,7 +28,7 @@ func TestLivenessController_UpSolo(t *testing.T) {
 }
 
 func TestLivenessController_UpWithIndicators(t *testing.T) {
-	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
+	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
 	LivenessController(testEngine, testHealthIndicator{true}, testHealthIndicator{true})
 
 	responseRecorder := httptest.NewRecorder()
@@ -39,7 +39,7 @@ func TestLivenessController_UpWithIndicators(t *testing.T) {
 }
 
 func TestLivenessController_DownWhenSomeDown(t *testing.T) {
-	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
+	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
 	LivenessController(testEngine, testHealthIndicator{true}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
@@ -50,7 +50,7 @@ func TestLivenessController_DownWhenSomeDown(t *testing.T) {
 }
 
 func TestLivenessController_DownWhenAllDown(t *testing.T) {
-	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
+	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
 	LivenessController(testEngine, testHealthIndicator{false}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
@@ -62,7 +62,7 @@ func TestLivenessController_DownWhenAllDown(t *testing.T) {
 }
 
 func TestReadinessController_UpSolo(t *testing.T) {
-	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
+	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
 	ReadinessController(testEngine)
 
 	responseRecorder := httptest.NewRecorder()
@@ -74,7 +74,7 @@ func TestReadinessController_UpSolo(t *testing.T) {
 }
 
 func TestReadinessController_UpWithIndicators(t *testing.T) {
-	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
+	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
 	ReadinessController(testEngine, testHealthIndicator{true}, testHealthIndicator{true})
 
 	responseRecorder := httptest.NewRecorder()
@@ -86,7 +86,7 @@ func TestReadinessController_UpWithIndicators(t *testing.T) {
 }
 
 func TestReadinessController_DownWhenSomeDown(t *testing.T) {
-	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
+	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
 	ReadinessController(testEngine, testHealthIndicator{true}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
@@ -98,7 +98,7 @@ func TestReadinessController_DownWhenSomeDown(t *testing.T) {
 }
 
 func TestReadinessController_DownWhenAllDown(t *testing.T) {
-	testEngine := NewGinEngine(slog.New(slog.DiscardHandler))
+	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
 	ReadinessController(testEngine, testHealthIndicator{false}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
