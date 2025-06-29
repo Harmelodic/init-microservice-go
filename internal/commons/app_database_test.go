@@ -1,7 +1,6 @@
 package commons
 
 import (
-	"database/sql"
 	"github.com/stretchr/testify/assert"
 	"log/slog"
 	"testing"
@@ -21,24 +20,14 @@ func TestNewAppDatabase_IndicateHealth(t *testing.T) {
 }
 
 func TestNewAppDatabase_IndicateHealthFail(t *testing.T) {
-	db, err := sql.Open("postgres", "postgres://postgres:password@localhost/postgres?sslmode=disable")
-	if err != nil {
-		t.Errorf("Failed to open database: %s", err)
-	}
-	defer func() {
-		err = db.Close()
-		if err != nil {
-			t.Error("Failed to close DB")
-		}
-	}()
+	// Given
+	appDatabase, done := NewMockAppDatabase(t, "postgres", slog.New(slog.DiscardHandler))
+	done() // Clean up database to induce error
 
-	appDatabase := AppDatabase{
-		Name:   "TestAppDatabase",
-		Db:     db,
-		Logger: slog.New(slog.DiscardHandler),
-	}
-
+	// When
 	name, isHealthy := appDatabase.IndicateHealth()
+
+	// Then
 	assert.Equal(t, "TestAppDatabase", name)
 	assert.False(t, isHealthy)
 }
