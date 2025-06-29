@@ -32,16 +32,16 @@ Application configuration:
 Build / CI:
 
 - [x] Test & Build automation (Make, Go CLIs `test` & `build`, GitHub Actions)
-- [ ] Packaging and pushing a container image (Dockerfile, GitHub Actions)
+- [x] Packaging and pushing a container image (Dockerfile, GitHub Actions)
 - [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, GitHub Actions)
 - [x] Lint/Scan/Generate Go code (Make, Go CLIs + `golangci-lint`)
-  - `go mod verify` - Ensures dependencies haven't been modified since last downloaded.
-  - `go mod tidy` (no diff) - Fixes `go.mod` file to meet requirements for building module (should always be the case)
-  - `go fmt` (no diff) - Formats the code according to Go canonical style (should always be the case)
-  - `go vet` - Lints the code for common Go mistakes, etc.
-  - `golangci-lint` - Run more linters to lint the code.
-  - `go generate` (no diff) - Run `//go:generate` scripts to ensure up-to-date generations exist (should always be the
-    case)
+    - `go mod verify` - Ensures dependencies haven't been modified since last downloaded.
+    - `go mod tidy` (no diff) - Fixes `go.mod` file to meet requirements for building module (should always be the case)
+    - `go fmt` (no diff) - Formats the code according to Go canonical style (should always be the case)
+    - `go vet` - Lints the code for common Go mistakes, etc.
+    - `golangci-lint` - Run more linters to lint the code.
+    - `go generate` (no diff) - Run `//go:generate` scripts to ensure up-to-date generations exist (should always be the
+      case)
 - [x] Validate MkDocs (`mkdocs build` with `strict` mode)
 
 Deployment / CD:
@@ -59,20 +59,21 @@ Infrastructure as Code:
 Reference implementation examples (production):
 
 - [x] Application Structure Example (account)
-  - Reasonably decoupled layers/components
-  - Domain-driven
-  - Scoped explicit exception handling
-  - Simple reusable model, mapping done in layers (if needed)
-  - Dependency Injection used
-  - Basic CRUD (as other implementations covered in other reference implementations)
-- [ ] DB Client (Using `GORM`? `SQLC`? `SQLX`?)
+    - Reasonably decoupled layers/components
+    - Domain-driven
+    - Scoped explicit exception handling
+    - Simple reusable model, mapping done in layers (if needed)
+    - Dependency Injection used
+    - Basic CRUD (as other implementations covered in other reference implementations)
+- [ ] DB Client (Built-in `database/sql` library, could have used `GORM` but I don't like ORMs, could have used `SQLC`
+  or `SQLX` but I don't feel the need)
 - [ ] HTTP Client (Built-in `net/http`?)
 
 Reference implementations (testing):
 
 - [ ] Provider Contract Testing the Controller (PACT)
 - [ ] Consumer Contract Testing the HTTP Client (PACT)
-- [ ] Integration Testing the Repository (in-memory DB)
+- [x] Integration Testing the Repository (Testcontainers)
 - [ ] Integration Testing the Event Publisher (Testcontainers)
 - [ ] Integration Testing the Event Subscriber (Testcontainers)
 
