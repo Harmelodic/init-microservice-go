@@ -1,90 +1,45 @@
 package account
 
 import (
-	"context"
-	"database/sql"
-	_ "github.com/lib/pq"
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/stretchr/testify/assert"
-	"github.com/testcontainers/testcontainers-go"
-	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"log/slog"
 	"testing"
 )
 
-// Mocks
-func usePostgresContainerDb(t *testing.T) (*sql.DB, func()) {
-	ctx := context.Background()
-
-	dbName := "postgres"
-	dbUser := "postgres"
-	dbPassword := "password"
-
-	t.Log("Starting container...")
-	postgresContainer, err := postgres.Run(ctx,
-		"postgres:latest",
-		postgres.WithDatabase(dbName),
-		postgres.WithUsername(dbUser),
-		postgres.WithPassword(dbPassword),
-		postgres.BasicWaitStrategies(),
-	)
-	if err != nil {
-		t.Errorf("Failed to start container: %s", err)
-	}
-	done := func() {
-		if err := testcontainers.TerminateContainer(postgresContainer); err != nil {
-			t.Logf("Failed to terminate container: %s", err.Error())
-		}
-	}
-
-	connectionString, err := postgresContainer.ConnectionString(ctx, "sslmode=disable")
-	if err != nil {
-		t.Errorf("Failed to build connection string: %s", err.Error())
-	}
-	t.Logf("Connection string established: %s", connectionString)
-
-	db, err := sql.Open("postgres", connectionString)
-	if err != nil {
-		t.Errorf("Failed to open database: %s", err)
-	}
-
-	return db, done
-}
-
-// Tests
-
+// TODO when Flyway (or alt) configured and SQL table(s) created
 func TestDefaultRepository_GetAllAccounts(t *testing.T) {
-	// TODO when Flyway (or alt) configured and SQL table(s) created
+	logger := slog.New(slog.DiscardHandler)
+	appDatabase, done := commons.NewAppDatabaseWithTestcontainers(t, "postgres", logger)
+	defer done()
+	repository := DefaultRepository{
+		Logger: logger,
+		Db:     appDatabase.Db,
+	}
+	// TODO: Insert some entries into the DB.
+
+	accounts, err := repository.GetAllAccounts()
+	if err != nil {
+		t.Error("Failed to get all accounts")
+	}
+
+	assert.NotNil(t, accounts)
+	// TODO: Assert entries are the same
 }
 
 func TestDefaultRepository_GetAllAccountsError(t *testing.T) {
-	// TODO when Flyway (or alt) configured and SQL table(s) created
-}
-
-func TestDefaultRepository_IsHealthy(t *testing.T) {
-	db, done := usePostgresContainerDb(t)
-	defer done()
-
-	repo := DefaultRepository{Db: db, Logger: slog.New(slog.DiscardHandler)}
-
-	name, isHealthy := repo.IndicateHealth()
-	assert.Equal(t, "AccountRepository", name)
-	assert.True(t, isHealthy)
-}
-
-func TestDefaultRepository_IsHealthyFail(t *testing.T) {
-	db, err := sql.Open("postgres", "postgres://postgres:password@localhost/postgres?sslmode=disable")
-	if err != nil {
-		t.Errorf("Failed to open database: %s", err)
+	// TODO: Unskip
+	t.Skip("Skipping for now whilst still work in progress")
+	logger := slog.New(slog.DiscardHandler)
+	appDatabase, done := commons.NewAppDatabaseWithTestcontainers(t, "postgres", logger)
+	repository := DefaultRepository{
+		Logger: logger,
+		Db:     appDatabase.Db,
 	}
-	defer func() {
-		err = db.Close()
-		if err != nil {
-			t.Error("Failed to close DB")
-		}
-	}()
+	done() // Clean up container database to induce error
 
-	repo := DefaultRepository{Db: db, Logger: slog.New(slog.DiscardHandler)}
+	accounts, err := repository.GetAllAccounts()
 
-	_, isHealthy := repo.IndicateHealth()
-	assert.False(t, isHealthy)
+	assert.Nil(t, accounts)
+	assert.NotNil(t, err)
 }

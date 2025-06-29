@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"github.com/Harmelodic/init-microservice-go/internal/account"
 	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/gin-gonic/gin"
@@ -33,25 +32,20 @@ func dependencyInjection(logger *slog.Logger) *gin.Engine {
 	engine := commons.NewGinEngine("init-microservice-go", logger)
 	logger.Info("Gin engine configured")
 
-	// TODO: Replace with call to service database, when Flyway (or alt) configured
+	// TODO: Replace with call to service app_database, when Flyway (or alt) configured
 	driver, dataSource := "postgres", "postgres://postgres:password@localhost/postgres?sslmode=disable"
-	database, err := sql.Open(driver, dataSource)
+	database, err := commons.NewAppDatabase("App Database", driver, dataSource, logger)
 	if err != nil {
-		logger.Error(
-			"Failed to open database",
-			slog.String("driver", driver),
-			slog.String("datasource", dataSource),
-			slog.String("error", err.Error()))
 		os.Exit(1)
 	}
 
-	accountRepository := account.DefaultRepository{Db: database, Logger: logger}
+	accountRepository := account.DefaultRepository{Db: database.Db, Logger: logger}
 	accountService := account.DefaultService{Repository: &accountRepository}
 
 	account.Controller(engine, &accountService)
 
 	commons.LivenessController(engine)
-	commons.ReadinessController(engine, &accountRepository)
+	commons.ReadinessController(engine, database)
 
 	return engine
 }

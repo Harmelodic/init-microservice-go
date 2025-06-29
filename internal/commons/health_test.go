@@ -8,6 +8,8 @@ import (
 	"testing"
 )
 
+// Mocks
+
 type testHealthIndicator struct {
 	status bool
 }
@@ -15,6 +17,8 @@ type testHealthIndicator struct {
 func (hi testHealthIndicator) IndicateHealth() (string, bool) {
 	return "indicator", hi.status
 }
+
+// Tests
 
 func TestLivenessController_UpSolo(t *testing.T) {
 	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))

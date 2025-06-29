@@ -6,8 +6,6 @@ import (
 	"testing"
 )
 
-// Testing
-
 func TestNewLogger_JSON(t *testing.T) {
 	// Given
 	var logBuffer bytes.Buffer

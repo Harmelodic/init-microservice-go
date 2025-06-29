@@ -11,8 +11,6 @@ import (
 	"testing"
 )
 
-// Testing
-
 func TestNewGinEngine_RecoversFromPanics(t *testing.T) {
 	// Given
 	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
