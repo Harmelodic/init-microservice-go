@@ -53,11 +53,11 @@ func usePostgresContainerDb(t *testing.T) (*sql.DB, func()) {
 // Tests
 
 func TestDefaultRepository_GetAllAccounts(t *testing.T) {
-	// TODO
+	// TODO when Flyway (or alt) configured and SQL table(s) created
 }
 
 func TestDefaultRepository_GetAllAccountsError(t *testing.T) {
-	// TODO
+	// TODO when Flyway (or alt) configured and SQL table(s) created
 }
 
 func TestDefaultRepository_IsHealthy(t *testing.T) {

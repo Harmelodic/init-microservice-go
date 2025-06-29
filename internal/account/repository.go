@@ -27,6 +27,6 @@ func (repo *DefaultRepository) IndicateHealth() (string, bool) {
 
 func (repo *DefaultRepository) GetAllAccounts() ([]Account, error) {
 
-	// TODO: Replace with real implementation
+	// TODO: Replace with real implementation, when Flyway (or alt) configured
 	return []Account{}, nil
 }

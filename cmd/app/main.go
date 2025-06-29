@@ -33,7 +33,7 @@ func dependencyInjection(logger *slog.Logger) *gin.Engine {
 	engine := commons.NewGinEngine("init-microservice-go", logger)
 	logger.Info("Gin engine configured")
 
-	// TODO: Replace with call to service database
+	// TODO: Replace with call to service database, when Flyway (or alt) configured
 	driver, dataSource := "postgres", "postgres://postgres:password@localhost/postgres?sslmode=disable"
 	database, err := sql.Open(driver, dataSource)
 	if err != nil {
