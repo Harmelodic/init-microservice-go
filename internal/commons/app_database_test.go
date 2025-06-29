@@ -9,7 +9,7 @@ import (
 
 func TestNewAppDatabase_IndicateHealth(t *testing.T) {
 	// Given
-	appDatabase, done := NewAppDatabaseWithTestcontainers(t, "postgres", slog.New(slog.DiscardHandler))
+	appDatabase, done := NewMockAppDatabase(t, "postgres", slog.New(slog.DiscardHandler))
 	defer done()
 
 	// When

@@ -10,7 +10,7 @@ import (
 // TODO when Flyway (or alt) configured and SQL table(s) created
 func TestDefaultRepository_GetAllAccounts(t *testing.T) {
 	logger := slog.New(slog.DiscardHandler)
-	appDatabase, done := commons.NewAppDatabaseWithTestcontainers(t, "postgres", logger)
+	appDatabase, done := commons.NewMockAppDatabase(t, "postgres", logger)
 	defer done()
 	repository := DefaultRepository{
 		Logger: logger,
@@ -31,7 +31,7 @@ func TestDefaultRepository_GetAllAccountsError(t *testing.T) {
 	// TODO: Unskip
 	t.Skip("Skipping for now whilst still work in progress")
 	logger := slog.New(slog.DiscardHandler)
-	appDatabase, done := commons.NewAppDatabaseWithTestcontainers(t, "postgres", logger)
+	appDatabase, done := commons.NewMockAppDatabase(t, "postgres", logger)
 	repository := DefaultRepository{
 		Logger: logger,
 		Db:     appDatabase.Db,

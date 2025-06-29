@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func NewAppDatabaseWithTestcontainers(t *testing.T, dbName string, logger *slog.Logger) (db *AppDatabase, done func()) {
+func NewMockAppDatabase(t *testing.T, dbName string, logger *slog.Logger) (db *AppDatabase, done func()) {
 	ctx := context.Background()
 
 	t.Log("Starting container...")
