@@ -8,8 +8,8 @@ import (
 
 func TestNewAppDatabase_IndicateHealth(t *testing.T) {
 	// Given
-	appDatabase, done := NewMockAppDatabase(t, "postgres", slog.New(slog.DiscardHandler))
-	defer done()
+	appDatabase, cleanUp := NewMockAppDatabase(t, "postgres", slog.New(slog.DiscardHandler))
+	defer cleanUp()
 
 	// When
 	name, isHealthy := appDatabase.IndicateHealth()
@@ -21,8 +21,8 @@ func TestNewAppDatabase_IndicateHealth(t *testing.T) {
 
 func TestNewAppDatabase_IndicateHealthFail(t *testing.T) {
 	// Given
-	appDatabase, done := NewMockAppDatabase(t, "postgres", slog.New(slog.DiscardHandler))
-	done() // Clean up database to induce error
+	appDatabase, cleanUp := NewMockAppDatabase(t, "postgres", slog.New(slog.DiscardHandler))
+	cleanUp() // Clean up database before using it to induce error
 
 	// When
 	name, isHealthy := appDatabase.IndicateHealth()

@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func NewMockAppDatabase(t *testing.T, dbName string, logger *slog.Logger) (db *AppDatabase, done func()) {
+func NewMockAppDatabase(t *testing.T, dbName string, logger *slog.Logger) (db *AppDatabase, cleanUp func()) {
 	ctx := context.Background()
 
 	t.Log("Starting container...")
@@ -23,7 +23,7 @@ func NewMockAppDatabase(t *testing.T, dbName string, logger *slog.Logger) (db *A
 	if err != nil {
 		t.Errorf("Failed to start container: %s", err)
 	}
-	done = func() {
+	cleanUp = func() {
 		if err := testcontainers.TerminateContainer(postgresContainer); err != nil {
 			t.Logf("Failed to terminate container: %s", err.Error())
 		}
@@ -31,16 +31,16 @@ func NewMockAppDatabase(t *testing.T, dbName string, logger *slog.Logger) (db *A
 
 	connectionString, err := postgresContainer.ConnectionString(ctx, "sslmode=disable")
 	if err != nil {
-		done()
+		cleanUp()
 		t.Errorf("Failed to build connection string: %s", err.Error())
 	}
 	t.Logf("Connection string established: %s", connectionString)
 
 	appDatabase, err := NewAppDatabase("TestAppDatabase", "postgres", connectionString, logger)
 	if err != nil {
-		done()
+		cleanUp()
 		t.Errorf("Failed to open database: %s", err)
 	}
 
-	return appDatabase, done
+	return appDatabase, cleanUp
 }
