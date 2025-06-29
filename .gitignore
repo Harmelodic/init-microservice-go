@@ -24,3 +24,6 @@ go.work.sum
 
 # Python Virtual Environment for MkDocs
 venv/
+
+# MkDocs build result
+site/
