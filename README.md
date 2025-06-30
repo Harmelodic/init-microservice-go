@@ -28,6 +28,7 @@ Application configuration:
 - [ ] Tracing configuration (OpenTelemetry)
 - [ ] Metrics configuration (OpenTelemetry + Prometheus Registry/Endpoint)
 - [x] Health checks (Custom Liveness and Readiness endpoints)
+- [ ] Database migration deployments (`golang-migrate/migrate`)
 
 Build / CI:
 
@@ -67,6 +68,7 @@ Reference implementation examples (production):
     - Basic CRUD (as other implementations covered in other reference implementations)
 - [ ] DB Client (Built-in `database/sql` library, could have used `GORM` but I don't like ORMs, could have used `SQLC`
   or `SQLX` but I don't feel the need)
+- [ ] DB
 - [ ] HTTP Client (Built-in `net/http`?)
 
 Reference implementations (testing):

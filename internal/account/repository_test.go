@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-// TODO when Flyway (or alt) configured and SQL table(s) created
+// TODO when DB migrations configured and SQL table(s) created
 func TestDefaultRepository_GetAllAccounts(t *testing.T) {
 	logger := slog.New(slog.DiscardHandler)
 	database, cleanUp := commons.NewMockDb(t, "postgres")

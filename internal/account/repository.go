@@ -15,6 +15,6 @@ type DefaultRepository struct {
 }
 
 func (repo *DefaultRepository) GetAllAccounts() ([]Account, error) {
-	// TODO: Replace with real implementation, when Flyway (or alt) configured
+	// TODO: Replace with real implementation, when DB migrations configured
 	return []Account{}, nil
 }
