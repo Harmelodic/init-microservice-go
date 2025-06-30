@@ -2,14 +2,14 @@ package commons
 
 import (
 	"context"
+	"database/sql"
 	_ "github.com/lib/pq"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
-	"log/slog"
 	"testing"
 )
 
-func NewMockAppDatabase(t *testing.T, dbName string, logger *slog.Logger) (db *AppDatabase, cleanUp func()) {
+func NewMockDb(t *testing.T, dbName string) (db *sql.DB, cleanUp func()) {
 	ctx := context.Background()
 
 	t.Log("Starting container...")
@@ -36,11 +36,11 @@ func NewMockAppDatabase(t *testing.T, dbName string, logger *slog.Logger) (db *A
 	}
 	t.Logf("Connection string established: %s", connectionString)
 
-	appDatabase, err := NewAppDatabase("TestAppDatabase", "postgres", connectionString, logger)
+	database, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		cleanUp()
 		t.Errorf("Failed to open database: %s", err)
 	}
 
-	return appDatabase, cleanUp
+	return database, cleanUp
 }
