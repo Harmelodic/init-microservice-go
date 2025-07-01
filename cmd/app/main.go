@@ -20,7 +20,7 @@ func main() {
 
 	// TODO: Replace with CLI flag, injected into AppConfig
 	logger.Info("Arguments given", slog.String("args", strings.Join(os.Args, " ")))
-	dbMigrationsDirectory := os.Args[1]
+	dbMigrationsDirectory := "/home/matt/harmelodic/init-microservice-go/migrations"
 
 	engine := dependencyInjection(logger, dbMigrationsDirectory)
 

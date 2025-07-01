@@ -31,7 +31,6 @@ clean:
 	rm -rf ./bin
 
 # ==== DEV SCRIPTS ====
-PROJECT_DIR := $(shell pwd)
 
 run: install
 	docker run -d --rm --name make_postgres -it -p 5432:5432 \
@@ -39,8 +38,9 @@ run: install
  		-e POSTGRES_PASSWORD=password \
  		-e POSTGRES_DB=service_db \
  		postgres:latest
+	sleep 3 # postgres takes a hot second to be ready
 	bash -c "trap 'trap - SIGINT SIGTERM ERR; docker stop make_postgres; exit 1; exit 1' SIGINT SIGTERM ERR; ${MAKE} run_internal"
 
-# TODO: This is broken with new migration code - FIX!
+PROJECT_DIR := $(shell pwd)
 run_internal:
 	go run ./cmd/app $(PROJECT_DIR)/migrations
