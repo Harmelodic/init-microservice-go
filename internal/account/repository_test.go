@@ -20,6 +20,7 @@ func createTable(t *testing.T, db *sqlx.DB) {
 }
 
 func TestDefaultRepository_GetAllAccounts(t *testing.T) {
+	t.Parallel()
 	logger := slog.New(slog.DiscardHandler)
 	database, cleanUp := commons.NewMockDb(t)
 	defer cleanUp()
@@ -50,6 +51,7 @@ func TestDefaultRepository_GetAllAccounts(t *testing.T) {
 }
 
 func TestDefaultRepository_GetAllAccountsError(t *testing.T) {
+	t.Parallel()
 	logger := slog.New(slog.DiscardHandler)
 	database, cleanUp := commons.NewMockDb(t)
 	repository := DefaultRepository{
@@ -65,6 +67,7 @@ func TestDefaultRepository_GetAllAccountsError(t *testing.T) {
 }
 
 func TestDefaultRepository_GetAccountById(t *testing.T) {
+	t.Parallel()
 	// Given
 	logger := slog.New(slog.DiscardHandler)
 	database, cleanUp := commons.NewMockDb(t)
@@ -97,6 +100,7 @@ func TestDefaultRepository_GetAccountById(t *testing.T) {
 }
 
 func TestDefaultRepository_GetAccountByIdError(t *testing.T) {
+	t.Parallel()
 	// Given
 	logger := slog.New(slog.DiscardHandler)
 	database, cleanUp := commons.NewMockDb(t)

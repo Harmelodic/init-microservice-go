@@ -25,6 +25,7 @@ func (m MockRepository) GetAccountById(_ uuid.UUID) (*Account, error) {
 // Tests
 
 func TestService_GetAllAccounts(t *testing.T) {
+	t.Parallel()
 	// Given
 	mockRepo := MockRepository{
 		accounts: []Account{
@@ -46,6 +47,7 @@ func TestService_GetAllAccounts(t *testing.T) {
 }
 
 func TestService_GetAllAccountsError(t *testing.T) {
+	t.Parallel()
 	// Given
 	mockRepo := MockRepository{
 		accounts: nil,

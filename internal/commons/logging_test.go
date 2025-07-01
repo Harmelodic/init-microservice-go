@@ -7,6 +7,7 @@ import (
 )
 
 func TestNewLogger_JSON(t *testing.T) {
+	t.Parallel()
 	// Given
 	var logBuffer bytes.Buffer
 	logger := NewLogger(LogFormatJSON, &logBuffer)
@@ -21,6 +22,7 @@ func TestNewLogger_JSON(t *testing.T) {
 }
 
 func TestNewLogger_Text(t *testing.T) {
+	t.Parallel()
 	// Given
 	var logBuffer bytes.Buffer
 	logger := NewLogger(LogFormatTEXT, &logBuffer)
@@ -35,6 +37,7 @@ func TestNewLogger_Text(t *testing.T) {
 }
 
 func TestNewLogger_DefaultIsJSON(t *testing.T) {
+	t.Parallel()
 	// Given
 	var logBuffer bytes.Buffer
 	logger := NewLogger("", &logBuffer)
@@ -49,6 +52,7 @@ func TestNewLogger_DefaultIsJSON(t *testing.T) {
 }
 
 func TestNewLogger_LogIncludesSource(t *testing.T) {
+	t.Parallel()
 	// Given
 	var logBuffer bytes.Buffer
 	logger := NewLogger(LogFormatTEXT, &logBuffer)

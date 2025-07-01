@@ -7,6 +7,7 @@ import (
 )
 
 func TestNewDbHealthIndicator_IndicateHealth(t *testing.T) {
+	t.Parallel()
 	// Given
 	database, cleanUp := NewMockDb(t)
 	healthIndicator := NewDbHealthIndicator("testDb", database, slog.New(slog.DiscardHandler))
@@ -21,6 +22,7 @@ func TestNewDbHealthIndicator_IndicateHealth(t *testing.T) {
 }
 
 func TestNewDbHealthIndicator_IndicateHealthFail(t *testing.T) {
+	t.Parallel()
 	// Given
 	database, cleanUp := NewMockDb(t)
 	healthIndicator := NewDbHealthIndicator("testDb", database, slog.New(slog.DiscardHandler))
