@@ -37,7 +37,7 @@ func TestController_GetAllAccounts(t *testing.T) {
 		},
 		err: nil,
 	}
-	Controller(testEngine, mockService)
+	Controller(testEngine, mockService, slog.New(slog.DiscardHandler))
 	accountJson, _ := json.Marshal(mockService.accounts)
 
 	// When
@@ -57,7 +57,7 @@ func TestController_GetAllAccountsError(t *testing.T) {
 		accounts: nil,
 		err:      errors.New("some service err"),
 	}
-	Controller(testEngine, mockService)
+	Controller(testEngine, mockService, slog.New(slog.DiscardHandler))
 
 	// When
 	responseRecorder := httptest.NewRecorder()
@@ -66,5 +66,5 @@ func TestController_GetAllAccountsError(t *testing.T) {
 
 	// Then
 	assert.Equal(t, 500, responseRecorder.Code)
-	assert.Contains(t, responseRecorder.Body.String(), mockService.err.Error())
+	assert.Empty(t, responseRecorder.Body.String()) // Empty body on error for security
 }

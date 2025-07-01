@@ -30,7 +30,11 @@ clean:
 
 # ==== DEV SCRIPTS ====
 run: install
-	docker run -d --rm --name make_postgres -it -p 5432:5432 -e POSTGRES_PASSWORD=password postgres:latest
+	docker run -d --rm --name make_postgres -it -p 5432:5432 \
+		-e POSTGRES_USER=init-microservice-go \
+ 		-e POSTGRES_PASSWORD=password \
+ 		-e POSTGRES_DB=service_db \
+ 		postgres:latest
 	bash -c "trap 'trap - SIGINT SIGTERM ERR; docker stop make_postgres; exit 1; exit 1' SIGINT SIGTERM ERR; ${MAKE} run_internal"
 
 run_internal:

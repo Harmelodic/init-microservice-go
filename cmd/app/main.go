@@ -33,11 +33,10 @@ func dependencyInjection(logger *slog.Logger) *gin.Engine {
 	engine := commons.NewGinEngine("init-microservice-go", logger)
 	logger.Info("Gin engine configured")
 
-	driver, dataSource := "postgres", "postgres://postgres:password@localhost/postgres?sslmode=disable"
+	driver, dataSource := "postgres", "postgres://init-microservice-go:password@localhost/service_db?sslmode=disable"
 	database, err := sqlx.Open(driver, dataSource)
 	if err != nil {
-		logger.Error(
-			"Failed to open database",
+		logger.Error("Failed to open database",
 			slog.String("driver", driver),
 			slog.String("datasource", dataSource),
 			slog.String("error", err.Error()))
@@ -49,7 +48,7 @@ func dependencyInjection(logger *slog.Logger) *gin.Engine {
 	accountRepository := account.DefaultRepository{Db: database, Logger: logger}
 	accountService := account.DefaultService{Repository: &accountRepository}
 
-	account.Controller(engine, &accountService)
+	account.Controller(engine, &accountService, logger)
 
 	commons.LivenessController(engine)
 	commons.ReadinessController(engine, dbHealthIndicator)
