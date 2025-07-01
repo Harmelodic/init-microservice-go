@@ -41,5 +41,6 @@ run: install
  		postgres:latest
 	bash -c "trap 'trap - SIGINT SIGTERM ERR; docker stop make_postgres; exit 1; exit 1' SIGINT SIGTERM ERR; ${MAKE} run_internal"
 
+# TODO: This is broken with new migration code - FIX!
 run_internal:
 	go run ./cmd/app $(PROJECT_DIR)/migrations

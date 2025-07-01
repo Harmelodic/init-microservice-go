@@ -18,6 +18,7 @@ func main() {
 	logger := commons.NewLogger(commons.LogFormatJSON, os.Stdout)
 	logger.Info("Starting service...")
 
+	// TODO: Replace with CLI flag, injected into AppConfig
 	logger.Info("Arguments given", slog.String("args", strings.Join(os.Args, " ")))
 	dbMigrationsDirectory := os.Args[1]
 
@@ -32,6 +33,7 @@ func main() {
 }
 
 func dependencyInjection(logger *slog.Logger, dbMigrationsDirectory string) *gin.Engine {
+	// TODO: Replace with datasource connection string CLI flag, injected into AppConfig
 	driver, dataSource := "postgres", "postgres://init-microservice-go:password@localhost:5432/service_db?sslmode=disable"
 	database, err := sqlx.Connect(driver, dataSource)
 	if err != nil {
