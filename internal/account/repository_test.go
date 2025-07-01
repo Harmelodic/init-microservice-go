@@ -15,7 +15,7 @@ func createTable(t *testing.T, db *sqlx.DB) {
 	// TODO Replace with DB migrations
 	_, err := db.Exec("CREATE TABLE account (id UUID, alias VARCHAR(255))")
 	if err != nil {
-		t.Fatalf("Failed to create table: %s", err.Error())
+		t.Fatal(err.Error())
 	}
 }
 
@@ -24,13 +24,17 @@ func TestDefaultRepository_GetAllAccounts(t *testing.T) {
 	database, cleanUp := commons.NewMockDb(t)
 	defer cleanUp()
 	createTable(t, database)
+	var accounts []Account
 	for i := 0; i < 10; i++ {
-		_, err := database.NamedExec("INSERT INTO account VALUES (:id, :alias)", &Account{
+		accounts = append(accounts, Account{
 			Id:    uuid.New(),
 			Alias: fmt.Sprintf("Account %s", strconv.Itoa(i)),
 		})
+	}
+	for i := 0; i < 10; i++ {
+		_, err := database.NamedExec("INSERT INTO account VALUES (:id, :alias)", accounts[i])
 		if err != nil {
-			t.Fatalf("Failed to insert accounts: %s", err.Error())
+			t.Fatal(err.Error())
 		}
 	}
 	repository := DefaultRepository{
@@ -38,13 +42,11 @@ func TestDefaultRepository_GetAllAccounts(t *testing.T) {
 		Db:     database,
 	}
 
-	accounts, err := repository.GetAllAccounts()
-	if err != nil {
-		t.Fatalf("Failed to get all accounts: %s", err.Error())
-	}
+	resultingAccounts, err := repository.GetAllAccounts()
 
-	assert.NotNil(t, accounts)
-	assert.Equal(t, 10, len(accounts))
+	// Then
+	assert.Equal(t, accounts, resultingAccounts)
+	assert.NoError(t, err)
 }
 
 func TestDefaultRepository_GetAllAccountsError(t *testing.T) {
@@ -59,6 +61,55 @@ func TestDefaultRepository_GetAllAccountsError(t *testing.T) {
 	accounts, err := repository.GetAllAccounts()
 
 	assert.Nil(t, accounts)
-	assert.NotNil(t, err)
-	t.Logf("Error retrieved: %s", err.Error())
+	assert.Error(t, err)
+}
+
+func TestDefaultRepository_GetAccountById(t *testing.T) {
+	// Given
+	logger := slog.New(slog.DiscardHandler)
+	database, cleanUp := commons.NewMockDb(t)
+	defer cleanUp()
+	createTable(t, database)
+	var accounts []Account
+	for i := 0; i < 10; i++ {
+		accounts = append(accounts, Account{
+			Id:    uuid.New(),
+			Alias: fmt.Sprintf("Account %s", strconv.Itoa(i)),
+		})
+	}
+	for i := 0; i < 10; i++ {
+		_, err := database.NamedExec("INSERT INTO account VALUES (:id, :alias)", accounts[i])
+		if err != nil {
+			t.Fatal(err.Error())
+		}
+	}
+	repository := DefaultRepository{
+		Logger: logger,
+		Db:     database,
+	}
+
+	// When
+	account, err := repository.GetAccountById(accounts[3].Id)
+
+	// Then
+	assert.Equal(t, &accounts[3], account)
+	assert.NoError(t, err)
+}
+
+func TestDefaultRepository_GetAccountByIdError(t *testing.T) {
+	// Given
+	logger := slog.New(slog.DiscardHandler)
+	database, cleanUp := commons.NewMockDb(t)
+	repository := DefaultRepository{
+		Logger: logger,
+		Db:     database,
+	}
+	cleanUp() // Clean up database before using it to induce connection error
+
+	// When
+	accounts, err := repository.GetAccountById(uuid.New())
+
+	// Then
+	assert.Nil(t, accounts)
+	assert.Error(t, err)
 }

@@ -41,8 +41,8 @@ func TestService_GetAllAccounts(t *testing.T) {
 	accounts, err := service.GetAllAccounts()
 
 	// Then
-	assert.NoError(t, err)
 	assert.Equal(t, mockRepo.accounts, accounts)
+	assert.NoError(t, err)
 }
 
 func TestService_GetAllAccountsError(t *testing.T) {
