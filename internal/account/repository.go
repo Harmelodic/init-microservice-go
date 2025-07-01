@@ -17,7 +17,7 @@ type DefaultRepository struct {
 }
 
 func (repo *DefaultRepository) GetAllAccounts() ([]Account, error) {
-	var accounts []Account
+	accounts := make([]Account, 0)
 	err := repo.Db.Select(&accounts, "SELECT id, alias FROM account")
 	if err != nil {
 		return nil, err

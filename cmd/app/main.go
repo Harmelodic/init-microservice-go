@@ -8,6 +8,7 @@ import (
 	_ "github.com/lib/pq"
 	"log/slog"
 	"os"
+	"strings"
 )
 
 // main is the entrypoint to the microservice. Here we:
@@ -17,7 +18,10 @@ func main() {
 	logger := commons.NewLogger(commons.LogFormatJSON, os.Stdout)
 	logger.Info("Starting service...")
 
-	engine := dependencyInjection(logger)
+	logger.Info("Arguments given", slog.String("args", strings.Join(os.Args, " ")))
+	dbMigrationsDirectory := os.Args[1]
+
+	engine := dependencyInjection(logger, dbMigrationsDirectory)
 
 	logger.Info("Starting application on port 8080")
 	err := engine.Run(":8080")
@@ -27,14 +31,9 @@ func main() {
 	}
 }
 
-func dependencyInjection(logger *slog.Logger) *gin.Engine {
-	// TODO: Configure OpenTelemetry for tracing instrumentation
-
-	engine := commons.NewGinEngine("init-microservice-go", logger)
-	logger.Info("Gin engine configured")
-
-	driver, dataSource := "postgres", "postgres://init-microservice-go:password@localhost/service_db?sslmode=disable"
-	database, err := sqlx.Open(driver, dataSource)
+func dependencyInjection(logger *slog.Logger, dbMigrationsDirectory string) *gin.Engine {
+	driver, dataSource := "postgres", "postgres://init-microservice-go:password@localhost:5432/service_db?sslmode=disable"
+	database, err := sqlx.Connect(driver, dataSource)
 	if err != nil {
 		logger.Error("Failed to open database",
 			slog.String("driver", driver),
@@ -42,6 +41,18 @@ func dependencyInjection(logger *slog.Logger) *gin.Engine {
 			slog.String("error", err.Error()))
 		os.Exit(1)
 	}
+
+	// Run migrations before continuing, in case anything accesses the database as part of initialisation.
+	err = commons.RunMigrations(database.DB, dbMigrationsDirectory, logger)
+	if err != nil {
+		logger.Error("Failed to run migrations", slog.String("error", err.Error()))
+		os.Exit(1)
+	}
+
+	// TODO: Configure OpenTelemetry for tracing instrumentation
+
+	engine := commons.NewGinEngine("init-microservice-go", logger)
+	logger.Info("Gin engine configured")
 
 	dbHealthIndicator := commons.NewDbHealthIndicator("appDb", database, logger)
 

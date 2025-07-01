@@ -4,6 +4,7 @@
 # Using specific `sha256` for reproduceable builds
 FROM gcr.io/distroless/base-debian12:nonroot@sha256:0a0dc2036b7c56d1a9b6b3eed67a974b6d5410187b88cbd6f1ef305697210ee2
 
-COPY ./bin/app /app
+COPY bin/app /app
+COPY bin/migrations /migrations
 
-CMD ["/app"]
+CMD ["/app", "migrations"]

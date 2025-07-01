@@ -4,9 +4,11 @@
 # Instead, it defines "CI Pipelines" by defining targets that don't exist that depend on each other.
 # This results in very simply-defined pipelines, at the cost of some `make` efficiencies.
 
+
 # ==== CI PIPELINES ====
 build: clean generate
 	go build -o ./bin/app -v ./cmd/app
+	cp -r migrations ./bin/migrations
 
 test: generate
 	go test -v -race ./...
@@ -29,6 +31,8 @@ clean:
 	rm -rf ./bin
 
 # ==== DEV SCRIPTS ====
+PROJECT_DIR := $(shell pwd)
+
 run: install
 	docker run -d --rm --name make_postgres -it -p 5432:5432 \
 		-e POSTGRES_USER=init-microservice-go \
@@ -38,4 +42,4 @@ run: install
 	bash -c "trap 'trap - SIGINT SIGTERM ERR; docker stop make_postgres; exit 1; exit 1' SIGINT SIGTERM ERR; ${MAKE} run_internal"
 
 run_internal:
-	go run ./cmd/app
+	go run ./cmd/app $(PROJECT_DIR)/migrations

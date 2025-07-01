@@ -19,12 +19,35 @@ func createTable(t *testing.T, db *sqlx.DB) {
 	}
 }
 
-func TestDefaultRepository_GetAllAccounts(t *testing.T) {
+func TestDefaultRepository_GetAllAccountsEmpty(t *testing.T) {
 	t.Parallel()
-	logger := slog.New(slog.DiscardHandler)
+	// Given
 	database, cleanUp := commons.NewMockDb(t)
 	defer cleanUp()
 	createTable(t, database)
+	repository := DefaultRepository{
+		Logger: slog.New(slog.DiscardHandler),
+		Db:     database,
+	}
+
+	// When
+	resultingAccounts, err := repository.GetAllAccounts()
+
+	// Then
+	assert.Equal(t, make([]Account, 0), resultingAccounts) // Ensure slice is empty, but not `nil` empty
+	assert.NoError(t, err)
+}
+
+func TestDefaultRepository_GetAllAccounts(t *testing.T) {
+	t.Parallel()
+	// Given
+	database, cleanUp := commons.NewMockDb(t)
+	defer cleanUp()
+	createTable(t, database)
+	repository := DefaultRepository{
+		Logger: slog.New(slog.DiscardHandler),
+		Db:     database,
+	}
 	var accounts []Account
 	for i := 0; i < 10; i++ {
 		accounts = append(accounts, Account{
@@ -38,11 +61,8 @@ func TestDefaultRepository_GetAllAccounts(t *testing.T) {
 			t.Fatal(err.Error())
 		}
 	}
-	repository := DefaultRepository{
-		Logger: logger,
-		Db:     database,
-	}
 
+	// When
 	resultingAccounts, err := repository.GetAllAccounts()
 
 	// Then
