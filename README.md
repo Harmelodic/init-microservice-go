@@ -66,9 +66,10 @@ Reference implementation examples (production):
     - Simple reusable model, mapping done in layers (if needed)
     - Dependency Injection used
     - Basic CRUD (as other implementations covered in other reference implementations)
-- [ ] DB Client (Built-in `database/sql` library, could have used `GORM` but I don't like ORMs, could have used `SQLC`
-  or `SQLX` but I don't feel the need)
-- [ ] DB
+- [x] DB Client (`sqlx`)
+    - Could have used `database/sql` but `sqlx` had built-in struct marshalling/row mapping.
+    - Could have used `SQLC` but compiling & generating a client from SQL is needless complexity.
+    - Could have used `GORM` but I don't like ORMs.
 - [ ] HTTP Client (Built-in `net/http`?)
 
 Reference implementations (testing):

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"database/sql"
 	"github.com/Harmelodic/init-microservice-go/internal/account"
 	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"log/slog"
 	"os"
@@ -34,7 +34,7 @@ func dependencyInjection(logger *slog.Logger) *gin.Engine {
 	logger.Info("Gin engine configured")
 
 	driver, dataSource := "postgres", "postgres://postgres:password@localhost/postgres?sslmode=disable"
-	database, err := sql.Open(driver, dataSource)
+	database, err := sqlx.Open(driver, dataSource)
 	if err != nil {
 		logger.Error(
 			"Failed to open database",

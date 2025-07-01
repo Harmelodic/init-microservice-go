@@ -8,7 +8,7 @@ import (
 
 func TestNewDbHealthIndicator_IndicateHealth(t *testing.T) {
 	// Given
-	database, cleanUp := NewMockDb(t, "postgres")
+	database, cleanUp := NewMockDb(t)
 	healthIndicator := NewDbHealthIndicator("testDb", database, slog.New(slog.DiscardHandler))
 	defer cleanUp()
 
@@ -22,9 +22,9 @@ func TestNewDbHealthIndicator_IndicateHealth(t *testing.T) {
 
 func TestNewDbHealthIndicator_IndicateHealthFail(t *testing.T) {
 	// Given
-	database, cleanUp := NewMockDb(t, "postgres")
+	database, cleanUp := NewMockDb(t)
 	healthIndicator := NewDbHealthIndicator("testDb", database, slog.New(slog.DiscardHandler))
-	cleanUp() // Clean up database before using it to induce error
+	cleanUp() // Clean up database before using it to induce connection error
 
 	// When
 	name, isHealthy := healthIndicator.IndicateHealth()

@@ -1,17 +1,20 @@
 package commons
 
 import (
-	"database/sql"
 	"log/slog"
 )
 
+type PingableDB interface {
+	Ping() error
+}
+
 type DbHealthIndicator struct {
 	Name   string
-	Db     *sql.DB
+	Db     PingableDB
 	Logger *slog.Logger
 }
 
-func NewDbHealthIndicator(name string, db *sql.DB, logger *slog.Logger) *DbHealthIndicator {
+func NewDbHealthIndicator(name string, db PingableDB, logger *slog.Logger) *DbHealthIndicator {
 	return &DbHealthIndicator{
 		Name:   name,
 		Db:     db,

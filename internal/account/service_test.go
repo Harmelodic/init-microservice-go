@@ -18,6 +18,10 @@ func (m MockRepository) GetAllAccounts() ([]Account, error) {
 	return m.accounts, m.err
 }
 
+func (m MockRepository) GetAccountById(_ uuid.UUID) (*Account, error) {
+	return &m.accounts[0], m.err
+}
+
 // Tests
 
 func TestService_GetAllAccounts(t *testing.T) {

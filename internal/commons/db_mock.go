@@ -2,44 +2,44 @@ package commons
 
 import (
 	"context"
-	"database/sql"
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"testing"
 )
 
-func NewMockDb(t *testing.T, dbName string) (db *sql.DB, cleanUp func()) {
+func NewMockDb(t *testing.T) (db *sqlx.DB, cleanUp func()) {
 	ctx := context.Background()
 
 	t.Log("Starting container...")
 	postgresContainer, err := postgres.Run(ctx,
 		"postgres:latest",
-		postgres.WithDatabase(dbName),
+		postgres.WithDatabase("mock_db"),
 		postgres.WithUsername("postgres"),
 		postgres.WithPassword("password"),
 		postgres.BasicWaitStrategies(),
 	)
 	if err != nil {
-		t.Errorf("Failed to start container: %s", err)
+		t.Fatalf("Failed to start container: %s", err)
 	}
 	cleanUp = func() {
 		if err := testcontainers.TerminateContainer(postgresContainer); err != nil {
-			t.Logf("Failed to terminate container: %s", err.Error())
+			t.Fatalf("Failed to terminate container: %s", err.Error())
 		}
 	}
 
 	connectionString, err := postgresContainer.ConnectionString(ctx, "sslmode=disable")
 	if err != nil {
 		cleanUp()
-		t.Errorf("Failed to build connection string: %s", err.Error())
+		t.Fatalf("Failed to build connection string: %s", err.Error())
 	}
 	t.Logf("Connection string established: %s", connectionString)
 
-	database, err := sql.Open("postgres", connectionString)
+	database, err := sqlx.Open("postgres", connectionString)
 	if err != nil {
 		cleanUp()
-		t.Errorf("Failed to open database: %s", err)
+		t.Fatalf("Failed to open database: %s", err)
 	}
 
 	return database, cleanUp
