@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# This Makefile doesn't track file changes and built executables like a normal Makefile.
+# Instead, it defines "CI Pipelines" by defining targets that don't exist that depend on each other.
+# This results in very simply-defined pipelines, at the cost of some `make` efficiencies.
+
 # ==== CI PIPELINES ====
 build: clean generate
 	go build -o ./bin/app -v ./cmd/app
