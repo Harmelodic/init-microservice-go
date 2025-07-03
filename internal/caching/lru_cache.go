@@ -16,6 +16,13 @@ type lruElement[T any] struct {
 	value    T
 }
 
+func NewLruCache[T any](maxSize int) *LruCache[T] {
+	return &LruCache[T]{
+		maxSize: maxSize,
+		store:   make([]lruElement[T], maxSize),
+	}
+}
+
 func (l *LruCache[T]) Get(key string) (value T, ok bool) {
 	index := slices.IndexFunc(l.store, func(element lruElement[T]) bool {
 		return element.key == key

@@ -11,7 +11,9 @@ type ManualCache[T any] interface {
 	InvalidateAll()
 }
 
-// BasicCache is a cache that implements Cache / ManualCache
+// BasicCache is a cache that implements ManualCache
+// No cache invalidation strategy is used in BasicCache, so manual cache invalidation is required in order to not run
+// out of memory.
 type BasicCache[T any] struct {
 	store map[string]T
 }

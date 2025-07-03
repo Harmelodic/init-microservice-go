@@ -15,6 +15,13 @@ type lfuElement[T any] struct {
 	value         T
 }
 
+func NewLfuCache[T any](maxSize int) *LfuCache[T] {
+	return &LfuCache[T]{
+		maxSize: maxSize,
+		store:   make([]lfuElement[T], maxSize),
+	}
+}
+
 func (l *LfuCache[T]) Get(key string) (value T, ok bool) {
 	index := slices.IndexFunc(l.store, func(element lfuElement[T]) bool {
 		return element.key == key
