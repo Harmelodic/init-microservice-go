@@ -4,29 +4,20 @@ import (
 	"fmt"
 	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/google/uuid"
-	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
 	"log/slog"
 	"strconv"
 	"testing"
 )
 
-func createTable(t *testing.T, db *sqlx.DB) {
-	// TODO Replace with DB migrations
-	_, err := db.Exec("CREATE TABLE account (id UUID, alias VARCHAR(255))")
-	if err != nil {
-		t.Fatal(err.Error())
-	}
-}
-
 func TestDefaultRepository_GetAllAccountsEmpty(t *testing.T) {
 	t.Parallel()
 	// Given
-	database, cleanUp := commons.NewMockDb(t)
+	logger := slog.New(slog.DiscardHandler)
+	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	defer cleanUp()
-	createTable(t, database)
 	repository := DefaultRepository{
-		Logger: slog.New(slog.DiscardHandler),
+		Logger: logger,
 		Db:     database,
 	}
 
@@ -41,11 +32,11 @@ func TestDefaultRepository_GetAllAccountsEmpty(t *testing.T) {
 func TestDefaultRepository_GetAllAccounts(t *testing.T) {
 	t.Parallel()
 	// Given
-	database, cleanUp := commons.NewMockDb(t)
+	logger := slog.New(slog.DiscardHandler)
+	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	defer cleanUp()
-	createTable(t, database)
 	repository := DefaultRepository{
-		Logger: slog.New(slog.DiscardHandler),
+		Logger: logger,
 		Db:     database,
 	}
 	var accounts []Account
@@ -73,7 +64,7 @@ func TestDefaultRepository_GetAllAccounts(t *testing.T) {
 func TestDefaultRepository_GetAllAccountsError(t *testing.T) {
 	t.Parallel()
 	logger := slog.New(slog.DiscardHandler)
-	database, cleanUp := commons.NewMockDb(t)
+	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	repository := DefaultRepository{
 		Logger: logger,
 		Db:     database,
@@ -90,9 +81,8 @@ func TestDefaultRepository_GetAccountById(t *testing.T) {
 	t.Parallel()
 	// Given
 	logger := slog.New(slog.DiscardHandler)
-	database, cleanUp := commons.NewMockDb(t)
+	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	defer cleanUp()
-	createTable(t, database)
 	var accounts []Account
 	for i := 0; i < 10; i++ {
 		accounts = append(accounts, Account{
@@ -123,7 +113,7 @@ func TestDefaultRepository_GetAccountByIdError(t *testing.T) {
 	t.Parallel()
 	// Given
 	logger := slog.New(slog.DiscardHandler)
-	database, cleanUp := commons.NewMockDb(t)
+	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	repository := DefaultRepository{
 		Logger: logger,
 		Db:     database,

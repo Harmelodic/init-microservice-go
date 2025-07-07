@@ -9,8 +9,9 @@ import (
 func TestNewDbHealthIndicator_IndicateHealth(t *testing.T) {
 	t.Parallel()
 	// Given
-	database, cleanUp := NewMockDb(t)
-	healthIndicator := NewDbHealthIndicator("testDb", database, slog.New(slog.DiscardHandler))
+	logger := slog.New(slog.DiscardHandler)
+	database, cleanUp := NewMockDb(t, "../../migrations", logger)
+	healthIndicator := NewDbHealthIndicator("testDb", database, logger)
 	defer cleanUp()
 
 	// When
@@ -24,8 +25,9 @@ func TestNewDbHealthIndicator_IndicateHealth(t *testing.T) {
 func TestNewDbHealthIndicator_IndicateHealthFail(t *testing.T) {
 	t.Parallel()
 	// Given
-	database, cleanUp := NewMockDb(t)
-	healthIndicator := NewDbHealthIndicator("testDb", database, slog.New(slog.DiscardHandler))
+	logger := slog.New(slog.DiscardHandler)
+	database, cleanUp := NewMockDb(t, "../../migrations", logger)
+	healthIndicator := NewDbHealthIndicator("testDb", database, logger)
 	cleanUp() // Clean up database before using it to induce connection error
 
 	// When

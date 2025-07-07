@@ -6,10 +6,11 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
+	"log/slog"
 	"testing"
 )
 
-func NewMockDb(t *testing.T) (db *sqlx.DB, cleanUp func()) {
+func NewMockDb(t *testing.T, migrationsDirectory string, logger *slog.Logger) (db *sqlx.DB, cleanUp func()) {
 	ctx := context.Background()
 
 	t.Log("Starting container...")
@@ -39,7 +40,13 @@ func NewMockDb(t *testing.T) (db *sqlx.DB, cleanUp func()) {
 	database, err := sqlx.Open("postgres", connectionString)
 	if err != nil {
 		cleanUp()
-		t.Fatalf("Failed to open database: %s", err)
+		t.Fatalf("Failed to open database: %s", err.Error())
+	}
+
+	err = RunMigrations(database.DB, migrationsDirectory, logger)
+	if err != nil {
+		cleanUp()
+		t.Fatalf("Failed to run migrations: %s", err.Error())
 	}
 
 	return database, cleanUp
