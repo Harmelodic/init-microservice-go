@@ -28,7 +28,9 @@ Application configuration:
 - [ ] Tracing configuration (OpenTelemetry)
 - [ ] Metrics configuration (OpenTelemetry + Prometheus Registry/Endpoint)
 - [x] Health checks (Custom Liveness and Readiness endpoints)
-- [ ] Database migration deployments (`golang-migrate/migrate`)
+- [x] Database migration deployments (`golang-migrate/migrate`)
+    - Migrations are numbered by timestamp (`yyyymmddhhMM`) to keep them ordered, prevent migration collisions from 
+      libraries that also do migrations, and provide a little context to when the migration was written.  
 
 Build / CI:
 
