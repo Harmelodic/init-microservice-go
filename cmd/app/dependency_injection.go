@@ -32,7 +32,7 @@ func dependencyInjection(logger *slog.Logger, appConfig *AppConfig) (*gin.Engine
 
 	dbHealthIndicator := commons.NewDbHealthIndicator("appDb", database, logger)
 
-	accountRepository := account.DefaultRepository{Db: database, Logger: logger}
+	accountRepository := account.DefaultRepository{Db: database}
 	accountService := account.DefaultService{Repository: &accountRepository}
 
 	account.Controller(engine, &accountService, logger)

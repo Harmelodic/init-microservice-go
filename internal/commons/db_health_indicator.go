@@ -22,11 +22,11 @@ func NewDbHealthIndicator(name string, db PingableDB, logger *slog.Logger) *DbHe
 	}
 }
 
-func (appDatabase *DbHealthIndicator) IndicateHealth() (string, bool) {
-	err := appDatabase.Db.Ping()
+func (dbHealthIndicator *DbHealthIndicator) IndicateHealth() (string, bool) {
+	err := dbHealthIndicator.Db.Ping()
 	if err != nil {
-		appDatabase.Logger.Error("Error connecting to database", slog.String("error", err.Error()))
-		return appDatabase.Name, false
+		dbHealthIndicator.Logger.Error("Error connecting to database", slog.String("error", err.Error()))
+		return dbHealthIndicator.Name, false
 	}
-	return appDatabase.Name, true
+	return dbHealthIndicator.Name, true
 }

@@ -3,7 +3,6 @@ package account
 import (
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"log/slog"
 )
 
 type Repository interface {
@@ -12,8 +11,7 @@ type Repository interface {
 }
 
 type DefaultRepository struct {
-	Logger *slog.Logger
-	Db     *sqlx.DB
+	Db *sqlx.DB
 }
 
 func (repo *DefaultRepository) GetAllAccounts() ([]Account, error) {
