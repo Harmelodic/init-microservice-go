@@ -17,8 +17,7 @@ func TestDefaultRepository_GetAllAccountsEmpty(t *testing.T) {
 	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	defer cleanUp()
 	repository := DefaultRepository{
-		Logger: logger,
-		Db:     database,
+		Db: database,
 	}
 
 	// When
@@ -36,8 +35,7 @@ func TestDefaultRepository_GetAllAccounts(t *testing.T) {
 	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	defer cleanUp()
 	repository := DefaultRepository{
-		Logger: logger,
-		Db:     database,
+		Db: database,
 	}
 	var accounts []Account
 	for i := 0; i < 10; i++ {
@@ -66,8 +64,7 @@ func TestDefaultRepository_GetAllAccountsError(t *testing.T) {
 	logger := slog.New(slog.DiscardHandler)
 	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	repository := DefaultRepository{
-		Logger: logger,
-		Db:     database,
+		Db: database,
 	}
 	cleanUp() // Clean up database before using it to induce connection error
 
@@ -97,8 +94,7 @@ func TestDefaultRepository_GetAccountById(t *testing.T) {
 		}
 	}
 	repository := DefaultRepository{
-		Logger: logger,
-		Db:     database,
+		Db: database,
 	}
 
 	// When
@@ -115,8 +111,7 @@ func TestDefaultRepository_GetAccountByIdError(t *testing.T) {
 	logger := slog.New(slog.DiscardHandler)
 	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	repository := DefaultRepository{
-		Logger: logger,
-		Db:     database,
+		Db: database,
 	}
 	cleanUp() // Clean up database before using it to induce connection error
 
