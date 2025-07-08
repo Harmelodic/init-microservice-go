@@ -21,7 +21,7 @@ Project configuration:
 Application configuration:
 
 - [x] Dependency Injection (Plain old root DI, could have used `go.uber.org/fx`)
-- [ ] Application Configuration (CLI + Flags (`urfave/cli` or `spf13/cobra`), or `spf13/viper`?)
+- [x] Application Configuration (CLI + Flags (`urfave/cli` or `spf13/cobra`), or `spf13/viper`?)
 - [x] Being a web service (`gin`, could have used `net/http` or `chi`)
 - [x] Unit Testing (Built-in Go Unit Testing + `stretchr/testify`)
 - [x] Logging Config (Built-in `slog`, could have used `go.uber.org/zap`?)
