@@ -19,7 +19,7 @@ jobs:
 
       # Install golangci-lint (golangci-lint runs during the `make lint`... but also runs as part of the action)
       # (bit wasteful, but it's fast and does caching - so running linting twice is a fair trade-off (for now))
-      - uses: golangci/golangci-lint-action@cbc80acbfbae8fe57279cabee776d40ddf26b958
+      - uses: golangci/golangci-lint-action@3d16f46f229bd30357c5de1a861936e9a560e973
         with:
           version: latest
 
