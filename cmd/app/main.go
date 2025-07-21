@@ -19,7 +19,7 @@ func main() {
 	logger := commons.NewLogger(commons.LogFormatJSON, os.Stdout)
 	logger.Info("Starting service...")
 
-	var appConfig = &appConfig{}
+	var appConfig *appConfig
 
 	err := loadAppConfigFromCommandFlags(appConfig, logger)
 	if err != nil {

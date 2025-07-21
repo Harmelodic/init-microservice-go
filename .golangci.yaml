@@ -5,7 +5,6 @@ linters:
   default: all
   disable:
     - depguard    # Allow listing dependencies is not a non-functional requirement right now.
-    - exhaustruct # Being able to rely on struct defaults is useful.
     - wsl         # Deprecated and replaced with wsl_v5
   settings:
     godox:

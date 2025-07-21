@@ -31,7 +31,7 @@ func (repo *DefaultRepository) GetAllAccounts() ([]Account, error) {
 
 // GetAccountByID fetches the account with the given ID.
 func (repo *DefaultRepository) GetAccountByID(id uuid.UUID) (*Account, error) {
-	account := Account{}
+	var account Account
 
 	err := repo.Db.Get(&account, "SELECT id, alias FROM account WHERE id = $1", id)
 	if err != nil {

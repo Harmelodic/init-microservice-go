@@ -14,7 +14,18 @@ func NewGinEngine(serviceName string, logger *slog.Logger) *gin.Engine {
 	engine.Use(gin.Recovery())
 	engine.Use(otelgin.Middleware(serviceName))
 	engine.Use(sloggin.NewWithConfig(logger, sloggin.Config{
-		WithTraceID: true,
+		DefaultLevel:       slog.LevelInfo,
+		ClientErrorLevel:   slog.LevelWarn,
+		ServerErrorLevel:   slog.LevelError,
+		WithUserAgent:      false,
+		WithRequestID:      true,
+		WithRequestBody:    false,
+		WithRequestHeader:  false,
+		WithResponseBody:   false,
+		WithResponseHeader: false,
+		WithSpanID:         true,
+		WithTraceID:        true,
+		Filters:            []sloggin.Filter{},
 	}))
 
 	return engine

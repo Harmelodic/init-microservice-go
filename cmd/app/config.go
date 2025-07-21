@@ -14,14 +14,17 @@ type appConfig struct {
 }
 
 func loadAppConfigFromCommandFlags(appConfig *appConfig, logger *slog.Logger) error {
+	//exhaustruct:ignore - Safe to define command non-exhaustively.
 	command := &cli.Command{
 		Flags: []cli.Flag{
+			//exhaustruct:ignore - Safe to define Flag non-exhaustively.
 			&cli.StringFlag{
 				Name:        "migrations-directory",
 				Value:       "migrations",
 				Usage:       "Directory where SQL migrations can be found",
 				Destination: &appConfig.MigrationsDirectory,
 			},
+			//exhaustruct:ignore - Safe to define Flag non-exhaustively.
 			&cli.StringFlag{
 				Name:        "db-connection-string",
 				Value:       "postgres://init-microservice-go:password@localhost:5432/service_db?sslmode=disable",

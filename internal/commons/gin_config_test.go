@@ -35,7 +35,7 @@ func TestNewGinEngine_LogsConfiguredCorrectly(t *testing.T) {
 	// Given
 	var logBuffer bytes.Buffer
 
-	logger := slog.New(slog.NewTextHandler(&logBuffer, &slog.HandlerOptions{}))
+	logger := slog.New(slog.NewTextHandler(&logBuffer, nil))
 	testEngine := commons.NewGinEngine("test", logger)
 	testEngine.GET("/endpoint", func(context *gin.Context) {
 		context.JSON(http.StatusOK, gin.H{})

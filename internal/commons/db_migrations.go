@@ -13,6 +13,7 @@ import (
 
 // RunMigrations runs the DB migrations found in the given migration directory on the given sql.DB.
 func RunMigrations(database *sql.DB, migrationDirectory string, logger *slog.Logger) error {
+	//exhaustruct:ignore - Safe to define postgres.Config non-exhaustively.
 	driver, err := postgres.WithInstance(database, &postgres.Config{})
 	if err != nil {
 		logger.Error("Failed to create driver")

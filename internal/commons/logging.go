@@ -19,6 +19,7 @@ const LogFormatTEXT LogFormat = "TEXT"
 func NewLogger(format LogFormat, writer io.Writer) *slog.Logger {
 	var handler slog.Handler
 
+	//exhaustruct:ignore - Safe to define slog.HandlerOptions non-exhaustively.
 	handlerOptions := slog.HandlerOptions{
 		AddSource: true,
 	}
