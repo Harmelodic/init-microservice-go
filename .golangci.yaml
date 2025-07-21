@@ -2,12 +2,26 @@
 # $schema: https://golangci-lint.run/jsonschema/golangci.jsonschema.json
 version: "2"
 linters:
-  default: all
+  default: all # Production code should be thoroughly linted. Less critical Go projects can use `standard`.
   disable:
-    - depguard    # Allow listing dependencies is not a non-functional requirement right now.
-    - wsl         # Deprecated and replaced with wsl_v5
+    - wsl # Deprecated and replaced with wsl_v5
   settings:
-    godox:
-      keywords: # Override default to allow to-do comments
-        - "BUG"
-        - "FIXME"
+    depguard:
+      rules:
+        main:
+          list-mode: strict
+          files:
+            - $all
+          allow:
+            - $gostd # Go standard library
+            - github.com/Harmelodic/init-microservice-go # Self
+            - github.com/gin-gonic/gin # gin for web server
+            - github.com/golang-migrate/migrate # migrate for DB migrations
+            - github.com/google/uuid # uuid for UUID types
+            - github.com/jmoiron/sqlx # sqlx for SQL integrations
+            - github.com/lib/pq # pq as the PostgreSQL driver
+            - github.com/samber/slog-gin # Slog logging for gin
+            - github.com/stretchr/testify/assert # testify/assert for assertions
+            - github.com/testcontainers # testcontainers for testing integrations
+            - github.com/urfave/cli # urfave/cli for CLI creation
+            - go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin # contrib/.../otelgin for gin instrumentation

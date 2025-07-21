@@ -26,8 +26,6 @@ func dependencyInjection(logger *slog.Logger, appConfig *appConfig) (*gin.Engine
 		return nil, fmt.Errorf("failed to run migrations: %w", err)
 	}
 
-	// TODO: Configure OpenTelemetry for tracing instrumentation
-
 	engine := commons.NewGinEngine("init-microservice-go", logger)
 	logger.Info("Gin engine configured")
 

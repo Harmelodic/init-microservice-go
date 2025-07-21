@@ -55,9 +55,10 @@ func TestNewGinEngine_LogsConfiguredCorrectly(t *testing.T) {
 	assert.Contains(t, logOutput, "request.path=/endpoint")
 	assert.Contains(t, logOutput, "response.status=200")
 
-	// TODO when tracing instrumentation configured
+	// Not yet... waiting for Tracing instrumentation to be configured.
 	// Assert log contains trace ID for connecting logs to traces:
 	// assert.Contains(t, logOutput, sloggin.TraceIDKey)
+	// assert.Contains(t, logOutput, sloggin.SpanIDKey)
 }
 
 func TestGinReadyForProductionUse(t *testing.T) {
