@@ -1,6 +1,7 @@
-site_name: init-microservice-go docs
-site_description: Docs for the init-microservice-go system.
+# $schema: https://squidfunk.github.io/mkdocs-material/schema.json
 site_author: Harmelodic
+site_description: Docs for the init-microservice-go system.
+site_name: init-microservice-go docs
 
 strict: true
 
