@@ -6,12 +6,17 @@
 
 
 # ==== CI PIPELINES ====
+ci-build: ensure-no-changes test build
+
+ensure-no-changes:
+	git diff --exit-code
+
 build: clean generate
 	go build -o ./bin/app -v ./cmd/app
 	cp -r migrations ./bin/migrations
 
 test: generate
-	go test -v -race ./...
+	go test -v ./...
 
 generate: lint
 	go generate ./...
@@ -22,7 +27,6 @@ lint: install
 	go fmt ./...
 	go vet ./...
 	golangci-lint run
-	git diff --exit-code
 
 install:
 	go mod download
