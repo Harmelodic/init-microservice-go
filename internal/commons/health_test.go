@@ -1,6 +1,7 @@
-package commons
+package commons_test
 
 import (
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/stretchr/testify/assert"
 	"log/slog"
 	"net/http"
@@ -21,8 +22,10 @@ func (hi testHealthIndicator) IndicateHealth() (string, bool) {
 // Tests
 
 func TestLivenessController_UpSolo(t *testing.T) {
-	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
-	LivenessController(testEngine)
+	t.Parallel()
+
+	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
+	commons.LivenessController(testEngine)
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/liveness", http.NoBody)
@@ -32,8 +35,10 @@ func TestLivenessController_UpSolo(t *testing.T) {
 }
 
 func TestLivenessController_UpWithIndicators(t *testing.T) {
-	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
-	LivenessController(testEngine, testHealthIndicator{true}, testHealthIndicator{true})
+	t.Parallel()
+
+	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
+	commons.LivenessController(testEngine, testHealthIndicator{true}, testHealthIndicator{true})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/liveness", http.NoBody)
@@ -43,8 +48,10 @@ func TestLivenessController_UpWithIndicators(t *testing.T) {
 }
 
 func TestLivenessController_DownWhenSomeDown(t *testing.T) {
-	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
-	LivenessController(testEngine, testHealthIndicator{true}, testHealthIndicator{false})
+	t.Parallel()
+
+	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
+	commons.LivenessController(testEngine, testHealthIndicator{true}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/liveness", http.NoBody)
@@ -54,56 +61,62 @@ func TestLivenessController_DownWhenSomeDown(t *testing.T) {
 }
 
 func TestLivenessController_DownWhenAllDown(t *testing.T) {
-	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
-	LivenessController(testEngine, testHealthIndicator{false}, testHealthIndicator{false})
+	t.Parallel()
+
+	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
+	commons.LivenessController(testEngine, testHealthIndicator{false}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/liveness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusServiceUnavailable, responseRecorder.Code)
-
 }
 
 func TestReadinessController_UpSolo(t *testing.T) {
-	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
-	ReadinessController(testEngine)
+	t.Parallel()
+
+	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
+	commons.ReadinessController(testEngine)
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/readiness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusOK, responseRecorder.Code)
-
 }
 
 func TestReadinessController_UpWithIndicators(t *testing.T) {
-	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
-	ReadinessController(testEngine, testHealthIndicator{true}, testHealthIndicator{true})
+	t.Parallel()
+
+	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
+	commons.ReadinessController(testEngine, testHealthIndicator{true}, testHealthIndicator{true})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/readiness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusOK, responseRecorder.Code)
-
 }
 
 func TestReadinessController_DownWhenSomeDown(t *testing.T) {
-	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
-	ReadinessController(testEngine, testHealthIndicator{true}, testHealthIndicator{false})
+	t.Parallel()
+
+	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
+	commons.ReadinessController(testEngine, testHealthIndicator{true}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/readiness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusServiceUnavailable, responseRecorder.Code)
-
 }
 
 func TestReadinessController_DownWhenAllDown(t *testing.T) {
-	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
-	ReadinessController(testEngine, testHealthIndicator{false}, testHealthIndicator{false})
+	t.Parallel()
+
+	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
+	commons.ReadinessController(testEngine, testHealthIndicator{false}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/health/readiness", http.NoBody)

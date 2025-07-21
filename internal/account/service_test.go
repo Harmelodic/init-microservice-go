@@ -1,7 +1,7 @@
-package account
+package account_test
 
 import (
-	"errors"
+	"github.com/Harmelodic/init-microservice-go/internal/account"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -10,15 +10,15 @@ import (
 // Mocks
 
 type MockRepository struct {
-	accounts []Account
+	accounts []account.Account
 	err      error
 }
 
-func (m MockRepository) GetAllAccounts() ([]Account, error) {
+func (m MockRepository) GetAllAccounts() ([]account.Account, error) {
 	return m.accounts, m.err
 }
 
-func (m MockRepository) GetAccountById(_ uuid.UUID) (*Account, error) {
+func (m MockRepository) GetAccountByID(_ uuid.UUID) (*account.Account, error) {
 	return &m.accounts[0], m.err
 }
 
@@ -28,15 +28,15 @@ func TestService_GetAllAccounts(t *testing.T) {
 	t.Parallel()
 	// Given
 	mockRepo := MockRepository{
-		accounts: []Account{
+		accounts: []account.Account{
 			{
-				Id:    uuid.New(),
+				ID:    uuid.New(),
 				Alias: "Mock Account",
 			},
 		},
 		err: nil,
 	}
-	service := DefaultService{mockRepo}
+	service := account.DefaultService{Repository: mockRepo}
 
 	// When
 	accounts, err := service.GetAllAccounts()
@@ -51,9 +51,9 @@ func TestService_GetAllAccountsError(t *testing.T) {
 	// Given
 	mockRepo := MockRepository{
 		accounts: nil,
-		err:      errors.New("some mockRepo err"),
+		err:      errMock,
 	}
-	service := DefaultService{mockRepo}
+	service := account.DefaultService{Repository: mockRepo}
 
 	// When
 	_, err := service.GetAllAccounts()

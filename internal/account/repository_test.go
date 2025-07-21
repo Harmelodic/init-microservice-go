@@ -1,7 +1,7 @@
-package account
+package account_test
 
 import (
-	"fmt"
+	"github.com/Harmelodic/init-microservice-go/internal/account"
 	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
@@ -14,9 +14,11 @@ func TestDefaultRepository_GetAllAccountsEmpty(t *testing.T) {
 	t.Parallel()
 	// Given
 	logger := slog.New(slog.DiscardHandler)
+
 	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	defer cleanUp()
-	repository := DefaultRepository{
+
+	repository := account.DefaultRepository{
 		Db: database,
 	}
 
@@ -24,7 +26,7 @@ func TestDefaultRepository_GetAllAccountsEmpty(t *testing.T) {
 	resultingAccounts, err := repository.GetAllAccounts()
 
 	// Then
-	assert.Equal(t, make([]Account, 0), resultingAccounts) // Ensure slice is empty, but not `nil` empty
+	assert.Equal(t, make([]account.Account, 0), resultingAccounts) // Ensure slice is empty, but not `nil` empty
 	assert.NoError(t, err)
 }
 
@@ -32,19 +34,23 @@ func TestDefaultRepository_GetAllAccounts(t *testing.T) {
 	t.Parallel()
 	// Given
 	logger := slog.New(slog.DiscardHandler)
+
 	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	defer cleanUp()
-	repository := DefaultRepository{
+
+	repository := account.DefaultRepository{
 		Db: database,
 	}
-	var accounts []Account
-	for i := 0; i < 10; i++ {
-		accounts = append(accounts, Account{
-			Id:    uuid.New(),
-			Alias: fmt.Sprintf("Account %s", strconv.Itoa(i)),
-		})
+
+	accounts := make([]account.Account, 10)
+	for i := range 10 {
+		accounts[i] = account.Account{
+			ID:    uuid.New(),
+			Alias: "Account " + strconv.Itoa(i),
+		}
 	}
-	for i := 0; i < 10; i++ {
+
+	for i := range 10 {
 		_, err := database.NamedExec("INSERT INTO account VALUES (:id, :alias)", accounts[i])
 		if err != nil {
 			t.Fatal(err.Error())
@@ -61,11 +67,13 @@ func TestDefaultRepository_GetAllAccounts(t *testing.T) {
 
 func TestDefaultRepository_GetAllAccountsError(t *testing.T) {
 	t.Parallel()
+
 	logger := slog.New(slog.DiscardHandler)
 	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
-	repository := DefaultRepository{
+	repository := account.DefaultRepository{
 		Db: database,
 	}
+
 	cleanUp() // Clean up database before using it to induce connection error
 
 	accounts, err := repository.GetAllAccounts()
@@ -78,30 +86,34 @@ func TestDefaultRepository_GetAccountById(t *testing.T) {
 	t.Parallel()
 	// Given
 	logger := slog.New(slog.DiscardHandler)
+
 	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
 	defer cleanUp()
-	var accounts []Account
-	for i := 0; i < 10; i++ {
-		accounts = append(accounts, Account{
-			Id:    uuid.New(),
-			Alias: fmt.Sprintf("Account %s", strconv.Itoa(i)),
-		})
+
+	accounts := make([]account.Account, 10)
+	for i := range 10 {
+		accounts[i] = account.Account{
+			ID:    uuid.New(),
+			Alias: "Account " + strconv.Itoa(i),
+		}
 	}
-	for i := 0; i < 10; i++ {
+
+	for i := range 10 {
 		_, err := database.NamedExec("INSERT INTO account VALUES (:id, :alias)", accounts[i])
 		if err != nil {
 			t.Fatal(err.Error())
 		}
 	}
-	repository := DefaultRepository{
+
+	repository := account.DefaultRepository{
 		Db: database,
 	}
 
 	// When
-	account, err := repository.GetAccountById(accounts[3].Id)
+	returnedAccount, err := repository.GetAccountByID(accounts[3].ID)
 
 	// Then
-	assert.Equal(t, &accounts[3], account)
+	assert.Equal(t, &accounts[3], returnedAccount)
 	assert.NoError(t, err)
 }
 
@@ -110,13 +122,14 @@ func TestDefaultRepository_GetAccountByIdError(t *testing.T) {
 	// Given
 	logger := slog.New(slog.DiscardHandler)
 	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
-	repository := DefaultRepository{
+	repository := account.DefaultRepository{
 		Db: database,
 	}
+
 	cleanUp() // Clean up database before using it to induce connection error
 
 	// When
-	accounts, err := repository.GetAccountById(uuid.New())
+	accounts, err := repository.GetAccountByID(uuid.New())
 
 	// Then
 	assert.Nil(t, accounts)

@@ -1,7 +1,8 @@
-package commons
+package commons_test
 
 import (
 	"bytes"
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -10,7 +11,8 @@ func TestNewLogger_JSON(t *testing.T) {
 	t.Parallel()
 	// Given
 	var logBuffer bytes.Buffer
-	logger := NewLogger(LogFormatJSON, &logBuffer)
+
+	logger := commons.NewLogger(commons.LogFormatJSON, &logBuffer)
 
 	// When
 	logger.Info("Message")
@@ -25,7 +27,8 @@ func TestNewLogger_Text(t *testing.T) {
 	t.Parallel()
 	// Given
 	var logBuffer bytes.Buffer
-	logger := NewLogger(LogFormatTEXT, &logBuffer)
+
+	logger := commons.NewLogger(commons.LogFormatTEXT, &logBuffer)
 
 	// When
 	logger.Info("Message")
@@ -40,7 +43,8 @@ func TestNewLogger_DefaultIsJSON(t *testing.T) {
 	t.Parallel()
 	// Given
 	var logBuffer bytes.Buffer
-	logger := NewLogger("", &logBuffer)
+
+	logger := commons.NewLogger("", &logBuffer)
 
 	// When
 	logger.Info("Message")
@@ -55,7 +59,8 @@ func TestNewLogger_LogIncludesSource(t *testing.T) {
 	t.Parallel()
 	// Given
 	var logBuffer bytes.Buffer
-	logger := NewLogger(LogFormatTEXT, &logBuffer)
+
+	logger := commons.NewLogger(commons.LogFormatTEXT, &logBuffer)
 
 	// When
 	logger.Info("Message")

@@ -2,17 +2,18 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/urfave/cli/v3"
 	"log/slog"
 	"os"
 )
 
-type AppConfig struct {
+type appConfig struct {
 	MigrationsDirectory string
 	DbConnectionString  string
 }
 
-func loadAppConfigFromCommandFlags(appConfig *AppConfig, logger *slog.Logger) error {
+func loadAppConfigFromCommandFlags(appConfig *appConfig, logger *slog.Logger) error {
 	command := &cli.Command{
 		Flags: []cli.Flag{
 			&cli.StringFlag{
@@ -28,15 +29,18 @@ func loadAppConfigFromCommandFlags(appConfig *AppConfig, logger *slog.Logger) er
 				Destination: &appConfig.DbConnectionString,
 			},
 		},
-		Action: func(ctx context.Context, cmd *cli.Command) error {
+		Action: func(_ context.Context, _ *cli.Command) error {
 			logger.Info("Config loaded.",
 				slog.String("migrations-directory", appConfig.MigrationsDirectory),
 				slog.String("db-connection-string", appConfig.DbConnectionString),
 			)
+
 			return nil
 		},
 	}
 
 	err := command.Run(context.Background(), os.Args)
-	return err // If no error, then it will return nil, which is fine.
+
+	// If no error, then it will return nil, which is fine.
+	return fmt.Errorf("config failed to load from command flags: %w", err)
 }

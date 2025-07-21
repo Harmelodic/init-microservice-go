@@ -3,17 +3,23 @@ package commons
 import (
 	"context"
 	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" // Pull in postgres driver for connecting to mock DB
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"log/slog"
 	"testing"
 )
 
-func NewMockDb(t *testing.T, migrationsDirectory string, logger *slog.Logger) (db *sqlx.DB, cleanUp func()) {
+// NewMockDb is a factory method for creating a mock database instance, using Testcontainers.
+//
+// NOTE: Only to be used for testing (or local development).
+func NewMockDb(t *testing.T, migrationsDirectory string, logger *slog.Logger) (*sqlx.DB, func()) {
+	t.Helper()
+
 	ctx := context.Background()
 
 	t.Log("Starting container...")
+
 	postgresContainer, err := postgres.Run(ctx,
 		"postgres:latest",
 		postgres.WithDatabase("mock_db"),
@@ -24,8 +30,10 @@ func NewMockDb(t *testing.T, migrationsDirectory string, logger *slog.Logger) (d
 	if err != nil {
 		t.Fatalf("Failed to start container: %s", err)
 	}
-	cleanUp = func() {
-		if err := testcontainers.TerminateContainer(postgresContainer); err != nil {
+
+	cleanUp := func() {
+		err := testcontainers.TerminateContainer(postgresContainer)
+		if err != nil {
 			t.Fatalf("Failed to terminate container: %s", err.Error())
 		}
 	}
@@ -35,6 +43,7 @@ func NewMockDb(t *testing.T, migrationsDirectory string, logger *slog.Logger) (d
 		cleanUp()
 		t.Fatalf("Failed to build connection string: %s", err.Error())
 	}
+
 	t.Logf("Connection string established: %s", connectionString)
 
 	database, err := sqlx.Open("postgres", connectionString)

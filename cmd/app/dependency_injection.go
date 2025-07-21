@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/Harmelodic/init-microservice-go/internal/account"
 	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/gin-gonic/gin"
@@ -9,20 +10,20 @@ import (
 	"log/slog"
 )
 
-func dependencyInjection(logger *slog.Logger, appConfig *AppConfig) (*gin.Engine, error) {
+func dependencyInjection(logger *slog.Logger, appConfig *appConfig) (*gin.Engine, error) {
 	database, err := sqlx.Connect("postgres", appConfig.DbConnectionString)
 	if err != nil {
 		logger.Error("Failed to open postgres database",
 			slog.String("datasource", appConfig.DbConnectionString),
 			slog.String("error", err.Error()))
-		return nil, err
+
+		return nil, fmt.Errorf("failed to open postgres database: %w", err)
 	}
 
 	// Run migrations before continuing, in case anything accesses the database as part of initialisation.
 	err = commons.RunMigrations(database.DB, appConfig.MigrationsDirectory, logger)
 	if err != nil {
-		logger.Error("Failed to run migrations", slog.String("error", err.Error()))
-		return nil, err
+		return nil, fmt.Errorf("failed to run migrations: %w", err)
 	}
 
 	// TODO: Configure OpenTelemetry for tracing instrumentation

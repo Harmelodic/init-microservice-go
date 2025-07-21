@@ -5,9 +5,13 @@ import (
 	"log/slog"
 )
 
+// LogFormat is an enumeration for choosing the format to use for logging.
 type LogFormat string
 
+// LogFormatJSON is a LogFormat that can be used to configure JSON logging.
 const LogFormatJSON LogFormat = "JSON"
+
+// LogFormatTEXT is a LogFormat that can be used to configure TEXT logging.
 const LogFormatTEXT LogFormat = "TEXT"
 
 // NewLogger makes a new sensibly preconfigured slog.Logger for use in an application.

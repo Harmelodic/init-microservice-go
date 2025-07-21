@@ -1,6 +1,7 @@
-package commons
+package commons_test
 
 import (
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/stretchr/testify/assert"
 	"log/slog"
 	"testing"
@@ -10,8 +11,9 @@ func TestNewDbHealthIndicator_IndicateHealth(t *testing.T) {
 	t.Parallel()
 	// Given
 	logger := slog.New(slog.DiscardHandler)
-	database, cleanUp := NewMockDb(t, "../../migrations", logger)
-	healthIndicator := NewDbHealthIndicator("testDb", database, logger)
+	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
+	healthIndicator := commons.NewDbHealthIndicator("testDb", database, logger)
+
 	defer cleanUp()
 
 	// When
@@ -26,8 +28,9 @@ func TestNewDbHealthIndicator_IndicateHealthFail(t *testing.T) {
 	t.Parallel()
 	// Given
 	logger := slog.New(slog.DiscardHandler)
-	database, cleanUp := NewMockDb(t, "../../migrations", logger)
-	healthIndicator := NewDbHealthIndicator("testDb", database, logger)
+	database, cleanUp := commons.NewMockDb(t, "../../migrations", logger)
+	healthIndicator := commons.NewDbHealthIndicator("testDb", database, logger)
+
 	cleanUp() // Clean up database before using it to induce connection error
 
 	// When

@@ -1,4 +1,14 @@
-#$schema: https://golangci-lint.run/jsonschema/golangci.jsonschema.json
+# Docs: https://golangci-lint.run/usage/configuration/
+# $schema: https://golangci-lint.run/jsonschema/golangci.jsonschema.json
 version: "2"
 linters:
-  default: standard
+  default: all
+  disable:
+    - depguard    # Allow listing dependencies is not a non-functional requirement right now.
+    - exhaustruct # Being able to rely on struct defaults is useful.
+    - wsl         # Deprecated and replaced with wsl_v5
+  settings:
+    godox:
+      keywords: # Override default to allow to-do comments
+        - "BUG"
+        - "FIXME"

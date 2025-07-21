@@ -7,6 +7,7 @@ import (
 	"log/slog"
 )
 
+// NewGinEngine is a factory method for creating a production-ready gin.Engine instance.
 func NewGinEngine(serviceName string, logger *slog.Logger) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	engine := gin.New()
@@ -15,5 +16,6 @@ func NewGinEngine(serviceName string, logger *slog.Logger) *gin.Engine {
 	engine.Use(sloggin.NewWithConfig(logger, sloggin.Config{
 		WithTraceID: true,
 	}))
+
 	return engine
 }

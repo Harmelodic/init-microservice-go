@@ -1,7 +1,8 @@
-package commons
+package commons_test
 
 import (
 	"bytes"
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"log/slog"
@@ -12,9 +13,10 @@ import (
 )
 
 func TestNewGinEngine_RecoversFromPanics(t *testing.T) {
+	t.Parallel()
 	// Given
-	testEngine := NewGinEngine("test", slog.New(slog.DiscardHandler))
-	testEngine.GET("/endpoint", func(context *gin.Context) {
+	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
+	testEngine.GET("/endpoint", func(_ *gin.Context) {
 		panic(1)
 	})
 
@@ -25,14 +27,16 @@ func TestNewGinEngine_RecoversFromPanics(t *testing.T) {
 
 	// Then
 	assert.Equal(t, http.StatusInternalServerError, responseRecorder.Code)
-	assert.Equal(t, "", responseRecorder.Body.String())
+	assert.Empty(t, responseRecorder.Body.String())
 }
 
 func TestNewGinEngine_LogsConfiguredCorrectly(t *testing.T) {
+	t.Parallel()
 	// Given
 	var logBuffer bytes.Buffer
+
 	logger := slog.New(slog.NewTextHandler(&logBuffer, &slog.HandlerOptions{}))
-	testEngine := NewGinEngine("test", logger)
+	testEngine := commons.NewGinEngine("test", logger)
 	testEngine.GET("/endpoint", func(context *gin.Context) {
 		context.JSON(http.StatusOK, gin.H{})
 	})
@@ -53,10 +57,11 @@ func TestNewGinEngine_LogsConfiguredCorrectly(t *testing.T) {
 
 	// TODO when tracing instrumentation configured
 	// Assert log contains trace ID for connecting logs to traces:
-	//assert.Contains(t, logOutput, sloggin.TraceIDKey)
+	// assert.Contains(t, logOutput, sloggin.TraceIDKey)
 }
 
 func TestGinReadyForProductionUse(t *testing.T) {
-	NewGinEngine("test", slog.New(slog.DiscardHandler))
+	t.Parallel()
+	commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
 	assert.Equal(t, gin.ReleaseMode, gin.Mode())
 }

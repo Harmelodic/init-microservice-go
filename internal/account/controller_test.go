@@ -1,8 +1,8 @@
-package account
+package account_test
 
 import (
 	"encoding/json"
-	"errors"
+	"github.com/Harmelodic/init-microservice-go/internal/account"
 	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
@@ -15,30 +15,35 @@ import (
 // Mocks
 
 type MockService struct {
-	accounts []Account
+	accounts []account.Account
 	err      error
 }
 
-func (m MockService) GetAllAccounts() ([]Account, error) {
+func (m MockService) GetAllAccounts() ([]account.Account, error) {
 	return m.accounts, m.err
 }
 
 // Tests
 
 func TestController_GetAllAccounts(t *testing.T) {
+	t.Parallel()
 	// Given
 	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
 	mockService := MockService{
-		accounts: []Account{
+		accounts: []account.Account{
 			{
-				Id:    uuid.New(),
+				ID:    uuid.New(),
 				Alias: "Mock Account",
 			},
 		},
 		err: nil,
 	}
-	Controller(testEngine, mockService, slog.New(slog.DiscardHandler))
-	accountJson, _ := json.Marshal(mockService.accounts)
+	account.Controller(testEngine, mockService, slog.New(slog.DiscardHandler))
+
+	accountJSON, err := json.Marshal(mockService.accounts)
+	if err != nil {
+		t.Fatalf("Could not marshall JSON: %s", err.Error())
+	}
 
 	// When
 	responseRecorder := httptest.NewRecorder()
@@ -47,17 +52,18 @@ func TestController_GetAllAccounts(t *testing.T) {
 
 	// Then
 	assert.Equal(t, 200, responseRecorder.Code)
-	assert.Equal(t, string(accountJson), responseRecorder.Body.String())
+	assert.JSONEq(t, string(accountJSON), responseRecorder.Body.String())
 }
 
 func TestController_GetAllAccountsError(t *testing.T) {
+	t.Parallel()
 	// Given
 	testEngine := commons.NewGinEngine("test", slog.New(slog.DiscardHandler))
 	mockService := MockService{
 		accounts: nil,
-		err:      errors.New("some service err"),
+		err:      errMock,
 	}
-	Controller(testEngine, mockService, slog.New(slog.DiscardHandler))
+	account.Controller(testEngine, mockService, slog.New(slog.DiscardHandler))
 
 	// When
 	responseRecorder := httptest.NewRecorder()
