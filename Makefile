@@ -22,6 +22,7 @@ lint: install
 	go fmt ./...
 	go vet ./...
 	golangci-lint run
+	git diff --exit-code
 
 install:
 	go mod download
@@ -31,7 +32,6 @@ clean:
 	rm -rf ./bin
 
 # ==== DEV SCRIPTS ====
-
 run: install
 	docker run -d --rm --name make_postgres -it -p 5432:5432 \
 		-e POSTGRES_USER=init-microservice-go \
