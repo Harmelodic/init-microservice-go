@@ -13,13 +13,13 @@ jobs:
       contents: 'read'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
       - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5
         with:
           go-version-file: go.mod
       # Install golangci-lint (golangci-lint runs during the `make lint`... but also runs as part of the action)
       # (bit wasteful, but it's fast and does caching - so running linting twice is a fair trade-off (for now))
-      - uses: golangci/golangci-lint-action@f9e969abf518e6dd0876e758f2ce8bf58bb5d56b
+      - uses: golangci/golangci-lint-action@9511564208289d6c9378c8852eec4ca6f9431220
         with:
           version: latest
       - run: make
@@ -29,7 +29,7 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
       - run: pip install -r requirements.txt
       - run: mkdocs build # Build in strict mode will validate docs.
