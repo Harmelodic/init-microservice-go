@@ -23,12 +23,12 @@ jobs:
           go-version-file: go.mod
       # Install golangci-lint (golangci-lint runs during the `make lint`... but also runs as part of the action)
       # (bit wasteful, but it's fast and does caching - so running linting twice is a fair trade-off (for now))
-      - uses: golangci/golangci-lint-action@9511564208289d6c9378c8852eec4ca6f9431220
+      - uses: golangci/golangci-lint-action@c21e01fb4be82019605a9badcb1a947c67472866
         with:
           version: latest
       - run: make
       - run: docker build -t "init-microservice-go:$GITHUB_SHA" .
-      - uses: google-github-actions/auth@b7593ed2efd1c1617e1b0254da33b86225adb2a5 # v2
+      - uses: google-github-actions/auth@6fc4af4b145ae7821d527454aa9bd537d1f2dc5f # v2
         with:
           workload_identity_provider: projects/401363556022/locations/global/workloadIdentityPools/github/providers/github-oidc
           service_account: automation@automation-220928.iam.gserviceaccount.com
