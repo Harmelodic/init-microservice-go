@@ -1,6 +1,6 @@
 module github.com/Harmelodic/init-microservice-go
 
-go 1.24.3
+go 1.24.3 // Minimum go version
 
 require (
 	github.com/gin-gonic/gin v1.10.1

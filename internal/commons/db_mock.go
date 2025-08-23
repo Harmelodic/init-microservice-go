@@ -1,13 +1,13 @@
 package commons
 
 import (
-	"context"
+	"log/slog"
+	"testing"
+
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq" // Pull in postgres driver for connecting to mock DB
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
-	"log/slog"
-	"testing"
 )
 
 // NewMockDb is a factory method for creating a mock database instance, using Testcontainers.
@@ -16,7 +16,7 @@ import (
 func NewMockDb(t *testing.T, migrationsDirectory string, logger *slog.Logger) (*sqlx.DB, func()) {
 	t.Helper()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	t.Log("Starting container...")
 

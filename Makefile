@@ -6,7 +6,7 @@
 
 
 # ==== CI PIPELINES ====
-ci-build: ensure-no-changes test build
+ci-build: test build ensure-no-changes
 
 ensure-no-changes:
 	git diff --exit-code
