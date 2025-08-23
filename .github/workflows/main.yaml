@@ -12,13 +12,13 @@ env:
 
 jobs:
   verify-github-workflows:
-    uses: harmelodic/workflows/.github/workflows/verify-github-workflows.yaml@d8c3ce35546b8b035d333149dea72ab3fac2ab83
+    uses: harmelodic/workflows/.github/workflows/verify-github-workflows.yaml@3aa835d592689040a23f582f9158a33d1402036c
 
   build-go-container-image:
-    uses: harmelodic/workflows/.github/workflows/build-go-container-image.yaml@1d5b31f1b5c50698d910dd72d1c7ff2aab5eb160
+    uses: harmelodic/workflows/.github/workflows/build-go-container-image.yaml@3aa835d592689040a23f582f9158a33d1402036c
     with:
       image: europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/init-microservice-go
     secrets: inherit
 
   release-mkdocs:
-    uses: harmelodic/workflows/.github/workflows/verify-mkdocs.yaml@d8c3ce35546b8b035d333149dea72ab3fac2ab83
+    uses: harmelodic/workflows/.github/workflows/verify-mkdocs.yaml@3aa835d592689040a23f582f9158a33d1402036c
