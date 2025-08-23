@@ -15,7 +15,7 @@ jobs:
     uses: harmelodic/workflows/.github/workflows/verify-github-workflows.yaml@d8c3ce35546b8b035d333149dea72ab3fac2ab83
 
   build-go-container-image:
-    uses: harmelodic/workflows/.github/workflows/build-go-container-image.yaml@d4557eefcea41c553dcf1d294cb6c54da00f4892
+    uses: harmelodic/workflows/.github/workflows/build-go-container-image.yaml@1d5b31f1b5c50698d910dd72d1c7ff2aab5eb160
     with:
       image: europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/init-microservice-go
     secrets: inherit
