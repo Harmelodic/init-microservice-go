@@ -29,23 +29,27 @@ Application configuration:
 - [ ] Metrics configuration (OpenTelemetry + Prometheus Registry/Endpoint)
 - [x] Health checks (Custom Liveness and Readiness endpoints)
 - [x] Database migration deployments (`golang-migrate/migrate`)
-    - Migrations are numbered by timestamp (`yyyymmddhhMM`) to keep them ordered, prevent migration collisions from 
-      libraries that also do migrations, and provide a little context to when the migration was written.  
+    - Migrations are numbered by timestamp (`yyyymmddhhMM`) to keep them ordered, prevent migration collisions from
+      libraries that also do migrations, and provide a little context to when the migration was written.
 
 Build / CI:
 
-- [x] Test & Build automation (Make, Go CLIs `test` & `build`, GitHub Actions)
-- [x] Packaging and pushing a container image (Dockerfile, GitHub Actions)
-- [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, GitHub Actions)
-- [x] Lint/Scan/Generate Go code (Make, Go CLIs + `golangci-lint`)
-    - `go mod verify` - Ensures dependencies haven't been modified since last downloaded.
-    - `go mod tidy` (no diff) - Fixes `go.mod` file to meet requirements for building module (should always be the case)
-    - `go fmt` (no diff) - Formats the code according to Go canonical style (should always be the case)
-    - `go vet` - Lints the code for common Go mistakes, etc.
-    - `golangci-lint` - Run more linters to lint the code.
-    - `go generate` (no diff) - Run `//go:generate` scripts to ensure up-to-date generations exist (should always be the
-      case)
-- [x] Validate MkDocs (`mkdocs build` with `strict` mode)
+- [x] Test & Build automation (Make, GitHub Actions)
+- [x] Uses reusable [workflows](https://github.com/Harmelodic/workflows) for ease of CI maintenance.
+- [x] Go Project + Container image specific build process:
+    - [x] Lint/Scan/Generate Go code (Go CLIs + `golangci-lint`)
+        - `go mod verify` - Ensures dependencies haven't been modified since last downloaded.
+        - `go mod tidy` (no diff) - Fixes `go.mod` file to meet requirements for building module (should always be the
+          case)
+        - `go fmt` (no diff) - Formats the code according to Go canonical style (should always be the case)
+        - `go vet` - Lints the code for common Go mistakes, etc.
+        - `golangci-lint` - Run more linters to lint the code.
+        - `go generate` (no diff) - Run `//go:generate` scripts to ensure up-to-date generations exist (should always be
+          the case)
+          [x] Testing (`go test`).
+          [x] Compilation with (`go build`).
+    - [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, ???)
+    - [x] Packaging and pushing a container image (Dockerfile)
 
 Deployment / CD:
 
