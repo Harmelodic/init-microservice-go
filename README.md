@@ -46,8 +46,8 @@ Build / CI:
         - `golangci-lint` - Run more linters to lint the code.
         - `go generate` (no diff) - Run `//go:generate` scripts to ensure up-to-date generations exist (should always be
           the case)
-          [x] Testing (`go test`).
-          [x] Compilation with (`go build`).
+    - [x] Testing (`go test`).
+    - [x] Compilation with (`go build`).
     - [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, ???)
     - [x] Packaging and pushing a container image (Dockerfile)
 
