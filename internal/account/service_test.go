@@ -1,10 +1,11 @@
 package account_test
 
 import (
+	"testing"
+
 	"github.com/Harmelodic/init-microservice-go/internal/account"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 // Mocks

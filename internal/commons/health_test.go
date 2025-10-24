@@ -1,12 +1,13 @@
 package commons_test
 
 import (
-	"github.com/Harmelodic/init-microservice-go/internal/commons"
-	"github.com/stretchr/testify/assert"
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
+	"github.com/stretchr/testify/assert"
 )
 
 // Mocks

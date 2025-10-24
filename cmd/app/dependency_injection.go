@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
+
 	"github.com/Harmelodic/init-microservice-go/internal/account"
 	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	"log/slog"
 )
 
 func dependencyInjection(logger *slog.Logger, appConfig *appConfig) (*gin.Engine, error) {

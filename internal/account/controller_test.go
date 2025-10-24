@@ -2,14 +2,15 @@ package account_test
 
 import (
 	"encoding/json"
-	"github.com/Harmelodic/init-microservice-go/internal/account"
-	"github.com/Harmelodic/init-microservice-go/internal/commons"
-	"github.com/google/uuid"
-	"github.com/stretchr/testify/assert"
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/Harmelodic/init-microservice-go/internal/account"
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
+	"github.com/google/uuid"
+	"github.com/stretchr/testify/assert"
 )
 
 // Mocks

@@ -2,14 +2,15 @@ package commons_test
 
 import (
 	"bytes"
-	"github.com/Harmelodic/init-microservice-go/internal/commons"
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
+
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewGinEngine_RecoversFromPanics(t *testing.T) {

@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"log/slog"
 	"os"
+
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
 )
 
 const (

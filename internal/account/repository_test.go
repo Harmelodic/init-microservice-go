@@ -1,13 +1,14 @@
 package account_test
 
 import (
+	"log/slog"
+	"strconv"
+	"testing"
+
 	"github.com/Harmelodic/init-microservice-go/internal/account"
 	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
-	"log/slog"
-	"strconv"
-	"testing"
 )
 
 func TestDefaultRepository_GetAllAccountsEmpty(t *testing.T) {

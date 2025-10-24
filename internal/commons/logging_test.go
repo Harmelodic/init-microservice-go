@@ -2,9 +2,10 @@ package commons_test
 
 import (
 	"bytes"
+	"testing"
+
 	"github.com/Harmelodic/init-microservice-go/internal/commons"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestNewLogger_JSON(t *testing.T) {

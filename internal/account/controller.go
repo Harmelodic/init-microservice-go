@@ -1,9 +1,10 @@
 package account
 
 import (
-	"github.com/gin-gonic/gin"
 	"log/slog"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // Controller configures appropriate HTTP routes.

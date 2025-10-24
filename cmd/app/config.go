@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/urfave/cli/v3"
 	"log/slog"
 	"os"
+
+	"github.com/urfave/cli/v3"
 )
 
 type appConfig struct {

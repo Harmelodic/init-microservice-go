@@ -1,8 +1,9 @@
 package commons
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // HealthIndicator describes how a health indicator should function. A component can be a HealthIndicator if it has a

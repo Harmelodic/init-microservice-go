@@ -4,11 +4,12 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"log/slog"
+
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file" // Pull in `file://` driver for migrations
 	_ "github.com/lib/pq"                                // Pull in Postgres driver for access a Postgres DB.
-	"log/slog"
 )
 
 // RunMigrations runs the DB migrations found in the given migration directory on the given sql.DB.

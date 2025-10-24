@@ -1,10 +1,11 @@
 package commons_test
 
 import (
-	"github.com/Harmelodic/init-microservice-go/internal/commons"
-	"github.com/stretchr/testify/assert"
 	"log/slog"
 	"testing"
+
+	"github.com/Harmelodic/init-microservice-go/internal/commons"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewDbHealthIndicator_IndicateHealth(t *testing.T) {
