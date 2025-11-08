@@ -11,6 +11,7 @@ import (
 // NewGinEngine is a factory method for creating a production-ready gin.Engine instance.
 func NewGinEngine(serviceName string, logger *slog.Logger) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
+
 	engine := gin.New()
 	engine.Use(gin.Recovery())
 	engine.Use(otelgin.Middleware(serviceName))
