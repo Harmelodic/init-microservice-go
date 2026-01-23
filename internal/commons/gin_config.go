@@ -19,6 +19,7 @@ func NewGinEngine(serviceName string, logger *slog.Logger) *gin.Engine {
 		DefaultLevel:       slog.LevelInfo,
 		ClientErrorLevel:   slog.LevelWarn,
 		ServerErrorLevel:   slog.LevelError,
+		WithClientIP:       false,
 		WithUserAgent:      false,
 		WithRequestID:      true,
 		WithRequestBody:    false,
