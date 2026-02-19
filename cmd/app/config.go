@@ -11,7 +11,7 @@ import (
 
 type appConfig struct {
 	MigrationsDirectory string
-	DbConnectionString  string
+	DbConnectionString  string // postgresql://[user[:password]@][host][:port][/dbname][?param1=value1&param2=value2]
 }
 
 func loadAppConfigFromCommandFlags(appConfig *appConfig, logger *slog.Logger) error {
@@ -28,7 +28,7 @@ func loadAppConfigFromCommandFlags(appConfig *appConfig, logger *slog.Logger) er
 			//exhaustruct:ignore - Safe to define Flag non-exhaustively.
 			&cli.StringFlag{
 				Name:        "db-connection-string",
-				Value:       "postgres://init-microservice-go:password@localhost:5432/service_db?sslmode=disable",
+				Value:       "postgres://init-microservice-go@localhost:5432/service_db?sslmode=disable",
 				Usage:       "Connection String for connecting to a Postgres Database",
 				Destination: &appConfig.DbConnectionString,
 			},
