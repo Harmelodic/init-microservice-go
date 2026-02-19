@@ -11,7 +11,7 @@ import (
 
 type appConfig struct {
 	MigrationsDirectory string
-	DbConnectionString  string // postgresql://[user[:password]@][host][:port][/dbname][?param1=value1&param2=value2]
+	DbConnectionString  string // e.g. postgresql://[user[:password]@][host][:port][/dbname][?param1=value1&param2=value2]
 }
 
 func loadAppConfigFromCommandFlags(appConfig *appConfig, logger *slog.Logger) error {
