@@ -29,27 +29,27 @@ Application configuration:
 - [ ] Metrics configuration (OpenTelemetry + Prometheus Registry/Endpoint)
 - [x] Health checks (Custom Liveness and Readiness endpoints)
 - [x] Database migration deployments (`golang-migrate/migrate`)
-    - Migrations are numbered by timestamp (`yyyymmddhhMM`) to keep them ordered, prevent migration collisions from
-      libraries that also do migrations, and provide a little context to when the migration was written.
+	- Migrations are numbered by timestamp (`yyyymmddhhMM`) to keep them ordered, prevent migration collisions from
+	  libraries that also do migrations, and provide a little context to when the migration was written.
 
 Build / CI:
 
 - [x] Test & Build automation (Make, GitHub Actions)
 - [x] Uses reusable [workflows](https://github.com/Harmelodic/workflows) for ease of CI maintenance.
 - [x] Go Project + Container image specific build process:
-    - [x] Lint/Scan/Generate Go code (Go CLIs + `golangci-lint`)
-        - `go mod verify` - Ensures dependencies haven't been modified since last downloaded.
-        - `go mod tidy` (no diff) - Fixes `go.mod` file to meet requirements for building module (should always be the
-          case)
-        - `go fmt` (no diff) - Formats the code according to Go canonical style (should always be the case)
-        - `go vet` - Lints the code for common Go mistakes, etc.
-        - `golangci-lint` - Run more linters to lint the code.
-        - `go generate` (no diff) - Run `//go:generate` scripts to ensure up-to-date generations exist (should always be
-          the case)
-    - [x] Testing (`go test`).
-    - [x] Compilation with (`go build`).
-    - [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, ???)
-    - [x] Packaging and pushing a container image (Dockerfile)
+	- [x] Lint/Scan/Generate Go code (Go CLIs + `golangci-lint`)
+		- `go mod verify` - Ensures dependencies haven't been modified since last downloaded.
+		- `go mod tidy` (no diff) - Fixes `go.mod` file to meet requirements for building module (should always be the
+		  case)
+		- `go fmt` (no diff) - Formats the code according to Go canonical style (should always be the case)
+		- `go vet` - Lints the code for common Go mistakes, etc.
+		- `golangci-lint` - Run more linters to lint the code.
+		- `go generate` (no diff) - Run `//go:generate` scripts to ensure up-to-date generations exist (should always be
+		  the case)
+	- [x] Testing (`go test`).
+	- [x] Compilation with (`go build`).
+	- [ ] Automated publishing of Contract Testing Contracts and Results (PACT Broker, ???)
+	- [x] Packaging and pushing a container image (Dockerfile)
 
 Deployment / CD:
 
@@ -66,16 +66,16 @@ Infrastructure as Code:
 Reference implementation examples (production):
 
 - [x] Application Structure Example (account)
-    - Reasonably decoupled layers/components
-    - Domain-driven
-    - Scoped explicit exception handling
-    - Simple reusable model, mapping done in layers (if needed)
-    - Dependency Injection used
-    - Basic CRUD (as other implementations covered in other reference implementations)
+	- Reasonably decoupled layers/components
+	- Domain-driven
+	- Scoped explicit exception handling
+	- Simple reusable model, mapping done in layers (if needed)
+	- Dependency Injection used
+	- Basic CRUD (as other implementations covered in other reference implementations)
 - [x] DB Client (`sqlx`)
-    - Could have used `database/sql` but `sqlx` had built-in struct marshalling/row mapping.
-    - Could have used `SQLC` but compiling & generating a client from SQL is needless complexity.
-    - Could have used `GORM` but I don't like ORMs.
+	- Could have used `database/sql` but `sqlx` had built-in struct marshalling/row mapping.
+	- Could have used `SQLC` but compiling & generating a client from SQL is needless complexity.
+	- Could have used `GORM` but I don't like ORMs.
 - [ ] HTTP Client (Built-in `net/http`?)
 
 Reference implementations (testing):
@@ -99,7 +99,7 @@ pip install -r requirements.txt
 mkdocs serve
 ```
 
-Then open at http://localhost:8000
+Then open at [localhost:8000](http://localhost:8000)
 
 ## Local development
 
@@ -130,5 +130,5 @@ go run ./internal
 make build && ./app
 ```
 
-- Endpoints accessible on http://localhost:8080
+- Endpoints accessible on [localhost:8080](http://localhost:8080)
 - Management endpoints on `/management/...`
