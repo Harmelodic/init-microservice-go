@@ -29,7 +29,7 @@ func TestLivenessController_UpSolo(t *testing.T) {
 	commons.LivenessController(testEngine)
 
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/health/liveness", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/health/liveness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusOK, responseRecorder.Code)
@@ -42,7 +42,7 @@ func TestLivenessController_UpWithIndicators(t *testing.T) {
 	commons.LivenessController(testEngine, testHealthIndicator{true}, testHealthIndicator{true})
 
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/health/liveness", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/health/liveness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusOK, responseRecorder.Code)
@@ -55,7 +55,7 @@ func TestLivenessController_DownWhenSomeDown(t *testing.T) {
 	commons.LivenessController(testEngine, testHealthIndicator{true}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/health/liveness", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/health/liveness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusServiceUnavailable, responseRecorder.Code)
@@ -68,7 +68,7 @@ func TestLivenessController_DownWhenAllDown(t *testing.T) {
 	commons.LivenessController(testEngine, testHealthIndicator{false}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/health/liveness", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/health/liveness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusServiceUnavailable, responseRecorder.Code)
@@ -81,7 +81,7 @@ func TestReadinessController_UpSolo(t *testing.T) {
 	commons.ReadinessController(testEngine)
 
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/health/readiness", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/health/readiness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusOK, responseRecorder.Code)
@@ -94,7 +94,7 @@ func TestReadinessController_UpWithIndicators(t *testing.T) {
 	commons.ReadinessController(testEngine, testHealthIndicator{true}, testHealthIndicator{true})
 
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/health/readiness", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/health/readiness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusOK, responseRecorder.Code)
@@ -107,7 +107,7 @@ func TestReadinessController_DownWhenSomeDown(t *testing.T) {
 	commons.ReadinessController(testEngine, testHealthIndicator{true}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/health/readiness", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/health/readiness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusServiceUnavailable, responseRecorder.Code)
@@ -120,7 +120,7 @@ func TestReadinessController_DownWhenAllDown(t *testing.T) {
 	commons.ReadinessController(testEngine, testHealthIndicator{false}, testHealthIndicator{false})
 
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/health/readiness", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/health/readiness", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusServiceUnavailable, responseRecorder.Code)

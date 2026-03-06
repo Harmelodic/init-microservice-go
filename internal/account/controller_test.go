@@ -48,7 +48,7 @@ func TestController_GetAllAccounts(t *testing.T) {
 
 	// When
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/v1/account", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/v1/account", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	// Then
@@ -68,7 +68,7 @@ func TestController_GetAllAccountsError(t *testing.T) {
 
 	// When
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/v1/account", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/v1/account", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	// Then

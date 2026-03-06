@@ -23,7 +23,7 @@ func TestNewGinEngine_RecoversFromPanics(t *testing.T) {
 
 	// When
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/endpoint", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/endpoint", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	// Then
@@ -44,7 +44,7 @@ func TestNewGinEngine_LogsConfiguredCorrectly(t *testing.T) {
 
 	// When
 	responseRecorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/endpoint", http.NoBody)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/endpoint", http.NoBody)
 	testEngine.ServeHTTP(responseRecorder, req)
 
 	// Then
