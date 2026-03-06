@@ -3,8 +3,7 @@
 I'm mostly from a Java background, so you can find most of my development/design thinking
 in [init-microservice](https://github.com/harmelodic/init-microservice).
 
-However, a bunch of the world now is built in other languages. For me, Go and Rust are the other languages that I would
-consider using to develop services.
+However, a bunch of the world now is built in other languages.
 
 This repo represents a frame for how I'd go about building services in Go.
 
