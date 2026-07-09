@@ -2,7 +2,7 @@
 # Using `base` as this app requires libc = https://github.com/GoogleContainerTools/distroless/blob/main/base/README.md
 # Using `nonroot` for better container security
 # Using specific `sha256` for reproduceable builds
-FROM gcr.io/distroless/base-debian12:nonroot@sha256:4ae8d0163a6f04d96f36e41324d76f00744f0db7545b6d04039c9e6fa1df77f3
+FROM gcr.io/distroless/base-debian12:nonroot@sha256:4b5196599229a5cf312a676cfe1ee8587ecf2371dcc22620f8c7a66d77d125c8
 
 COPY bin/app /app
 COPY bin/migrations /migrations
